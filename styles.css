@@ -1,0 +1,669 @@
+/* Values taken from Figma frame "MacBook Pro 16" - 11" (1728 × 1117) */
+:root {
+  --ink: #333333;
+  --bg: #ffffff;
+  --placeholder: #d9d9d9;
+
+  /* Layout grid: 6 columns, stretch, 75 margin, 45 gutter */
+  --columns: 6;
+  --wall-columns: 5; /* the wall uses 5 per row on desktop */
+  --margin: 75px;
+  --gutter: 45px;
+
+  --font-sans: "Geist", sans-serif;
+  --font-serif: "Crimson Pro", serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-feature-settings: "lnum" 1, "pnum" 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- Collapsing top ---------- */
+/* `top` is set by script to −(collapse distance); --p is scroll progress 0 → 1 */
+.top {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--bg);
+}
+
+/* ---------- Header ---------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  padding: 29px var(--margin) 0;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.1;
+  letter-spacing: -0.32px;
+}
+
+.site-header a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.site-header a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ---------- Hero ---------- */
+/* Headline box: y 143.6 → 373.6 (230 tall). Toggle sits bottom-right, y 366 → 399. */
+.hero {
+  position: relative;
+  margin: 0 var(--margin);
+  padding-top: 97px; /* headline top at y 143.6 (header bottom ≈ 46.6) */
+  min-height: 352.4px; /* toggle bottom lands at y 399 */
+}
+
+/*
+  Headline box: y 143.6 → 373.6 (230 tall), text bottom-anchored 8.2px above
+  the box bottom (same resting position as Figma's centred text).
+*/
+.headline {
+  --hl-size: 64.31px; /* resting size (Figma) */
+  --hl-end: 28px; /* collapsed size (one line next to the Wall/Feed toggle) */
+  --hl-width: 704px; /* resting text-box width (Figma) */
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 230px;
+  padding-bottom: 8.2px;
+  margin: 0;
+  font-weight: 400;
+  line-height: 0.89;
+}
+
+/*
+  Live typography on scroll (--p 0 → 1):
+  the real font-size shrinks to --hl-end while the text box opens to the right,
+  so the lines re-wrap as it goes. Bottom-left anchored; --hl-shift (set by script)
+  eases it a little toward the line so it ends level with the Wall/Feed toggle.
+*/
+.headline > span {
+  display: block;
+  width: calc(
+    min(var(--hl-width), 100%) + var(--p, 0) * (100% - min(var(--hl-width), 100%))
+  );
+  font-size: calc(var(--hl-size) - var(--p, 0) * (var(--hl-size) - var(--hl-end)));
+  letter-spacing: -0.05em; /* −3.2155px at 64.31px */
+  translate: 0 calc(var(--p, 0) * var(--hl-shift, 0px));
+}
+
+/* Words animate in one by one on load */
+.headline .word {
+  display: inline-block;
+}
+
+.headline em {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.244em; /* 80px at 64.31px */
+  letter-spacing: -0.03em; /* −2.4px at 80px */
+}
+
+.view-toggle {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 3; /* above the pinned name row when it joins it */
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  translate: 0 calc(var(--p, 0) * var(--toggle-shift, 0px));
+}
+
+.view-toggle button {
+  height: 33px;
+  border: 0;
+  background: none;
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 1.1;
+  letter-spacing: 0.39px;
+  font-feature-settings: "lnum" 1, "pnum" 1;
+  cursor: pointer;
+}
+
+.view-toggle button:first-child {
+  width: 66px;
+}
+
+.view-toggle button:last-child {
+  width: 68.4px;
+}
+
+.view-toggle button.is-active {
+  background: var(--ink);
+  color: var(--bg);
+}
+
+/* ---------- Divider ---------- */
+.divider {
+  margin: 23.8px var(--margin) 0;
+  border: 0;
+  border-top: 0.6px solid var(--ink);
+}
+
+/* ---------- Wall grid ---------- */
+.wall {
+  display: grid;
+  grid-template-columns: repeat(var(--wall-columns, var(--columns)), minmax(0, 1fr));
+  column-gap: var(--gutter);
+  row-gap: var(--gutter);
+  align-items: start;
+  margin: 45.7px var(--margin) var(--margin);
+}
+
+.wall[hidden],
+.feed[hidden] {
+  display: none;
+}
+
+/* ---------- Feed ---------- */
+/* Same 6-column grid; posts span the two middle columns (496px at 1728). */
+.feed {
+  display: grid;
+  grid-template-columns: repeat(var(--columns), minmax(0, 1fr));
+  column-gap: var(--gutter);
+  row-gap: calc(var(--gutter) * 2);
+  margin: 45.7px var(--margin) var(--margin);
+}
+
+.post {
+  grid-column: 3 / span 2; /* 496px at 1728 */
+  margin: 0;
+  animation: tile-in 1400ms var(--ease-flow) both;
+  animation-delay: calc(var(--i, 0) * var(--wall-step));
+}
+
+/* Wide projects (ratio ≥ 1.6, e.g. websites) span the 4 middle columns (1037px at 1728) */
+.post.is-wide {
+  grid-column: 2 / span 4;
+}
+
+/* Same ratio as the project's wall tile (--ratio / --ar set by script).
+   Width also capped so a tall post still fits under the collapsed header. */
+.post > .media,
+.post > .carousel,
+.post > .post-meta {
+  width: min(100%, calc((100svh - 220px) * var(--ar, 0.8)));
+  margin-inline: auto;
+}
+
+.media {
+  aspect-ratio: var(--ratio, 4 / 5);
+  background: var(--placeholder);
+  overflow: hidden;
+}
+
+/* Post with a timeline: leave room for it under the video */
+.post.has-timeline > .media,
+.post.has-timeline > .carousel,
+.post.has-timeline > .post-meta {
+  width: min(100%, calc((100svh - 270px) * var(--ar, 0.8)));
+  margin-inline: auto;
+}
+
+/* Video timeline — thin line like the divider, time like the tabs */
+.timeline {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 16px;
+  transition: opacity 400ms var(--ease-flow);
+}
+
+.post.timeline-off .timeline {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.timeline-track {
+  position: relative;
+  flex: 1;
+  height: 2px;
+  background: rgba(51, 51, 51, 0.15);
+  cursor: pointer;
+}
+
+/* Bigger invisible hit area for clicking */
+.timeline-track::before {
+  content: "";
+  position: absolute;
+  inset: -10px 0;
+}
+
+.timeline-fill {
+  position: absolute;
+  inset: 0;
+  background: var(--ink);
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+.timeline-time {
+  min-width: 3.2em;
+  text-align: right;
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 1.1;
+  letter-spacing: 0.39px;
+  font-variant-numeric: tabular-nums;
+}
+
+.carousel img,
+.carousel video {
+  pointer-events: none;
+  -webkit-user-drag: none;
+}
+
+.media > img,
+.media > video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Carousel */
+.carousel {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  touch-action: pan-y; /* vertical page scroll still works on touch */
+  user-select: none;
+  outline-offset: 4px;
+}
+
+.carousel.at-start.at-end {
+  cursor: default;
+}
+
+.carousel-track {
+  display: flex;
+  transition: transform 700ms var(--ease-flow);
+}
+
+.carousel.is-dragging .carousel-track {
+  transition: none;
+}
+
+.slide {
+  position: relative;
+  flex: 0 0 100%;
+}
+
+/* In a carousel every image is shown whole, on the post's backdrop
+   (--slide-bg), since slides can have different shapes than the carousel */
+.media.slide {
+  background: var(--slide-bg, var(--placeholder));
+}
+
+.slide > img,
+.slide > video {
+  object-fit: contain;
+}
+
+/* Row under a post: timeline (if any) + slide counter, same type as the timeline time */
+.post-meta {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-top: 14px;
+  min-height: 15px;
+}
+
+.slide-count {
+  margin-left: auto;
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 1.1;
+  letter-spacing: 0.39px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Each tile keeps its ratio and is centred in its column */
+.tile {
+  justify-self: center;
+  width: var(--w, 100%);
+  aspect-ratio: var(--ratio, 4 / 5);
+  margin: 0;
+  background: var(--placeholder);
+  overflow: hidden;
+}
+
+.tile > img,
+.tile > video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ---------- Load-in animation ---------- */
+/*
+  Intro elements rise in one after another (--i set inline),
+  then the tiles follow in a diagonal wave (--i set by script from row + column).
+*/
+:root {
+  --ease-flow: cubic-bezier(0.22, 1, 0.36, 1);
+  --intro-step: 90ms;
+  --word-start: 200ms;
+  --word-step: 55ms;
+  --wall-start: 800ms;
+  --wall-step: 120ms;
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+@keyframes tile-in {
+  from {
+    opacity: 0;
+    transform: translateY(90px) scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes draw-line {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.site-header > *,
+.view-toggle {
+  animation: rise-in 1100ms var(--ease-flow) both;
+  animation-delay: calc(var(--i, 0) * var(--intro-step));
+}
+
+.headline .word {
+  animation: rise-in 1100ms var(--ease-flow) both;
+  animation-delay: calc(var(--word-start) + var(--w, 0) * var(--word-step));
+}
+
+.divider {
+  transform-origin: left center;
+  animation: draw-line 1400ms var(--ease-flow) both;
+  animation-delay: calc(var(--i, 0) * var(--intro-step));
+}
+
+.tile {
+  animation: tile-in 1400ms var(--ease-flow) both;
+  animation-delay: calc(var(--wall-start) + var(--i, 0) * var(--wall-step));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-header > *,
+  .headline .word,
+  .view-toggle,
+  .divider,
+  .tile,
+  .post {
+    animation: none;
+  }
+
+  .carousel-track {
+    transition: none;
+  }
+}
+
+/* After switching views, the wall replays its wave without the intro delay */
+html.view-switched {
+  --wall-start: 0ms;
+}
+
+/* ---------- Slot hover (header texts + tabs) ---------- */
+/* Each letter is a clipped window; on hover the letter rolls up and its copy
+   (::after) rolls in from below, staggered per letter. */
+:root {
+  --slot-duration: 650ms;
+  --slot-step: 22ms;
+  --slot-gap: 0.08em; /* space between a letter and its copy */
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.slot .char {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  /* room for ascenders/descenders without changing the line box */
+  padding-block: 0.05em;
+  margin-block: -0.05em;
+}
+
+.slot .char-inner {
+  display: block;
+  position: relative;
+  transition: translate var(--slot-duration) var(--ease-flow);
+  transition-delay: calc(var(--c, 0) * var(--slot-step));
+}
+
+.slot .char-inner::after {
+  content: attr(data-char);
+  position: absolute;
+  left: 0;
+  top: calc(100% + var(--slot-gap));
+}
+
+.slot:hover .char-inner,
+.slot:focus-visible .char-inner {
+  translate: 0 calc(-100% - var(--slot-gap));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .slot .char-inner {
+    transition: none;
+  }
+}
+
+/* ---------- Smaller screens ---------- */
+@media (max-width: 1100px) {
+  :root {
+    --columns: 3;
+    --wall-columns: 3;
+    --margin: 40px;
+    --gutter: 32px;
+  }
+
+  .post {
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: min(100%, 496px);
+  }
+
+  .post.is-wide {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  :root {
+    --columns: 2;
+    --wall-columns: 2;
+    --margin: 16px;
+    --gutter: 16px;
+  }
+
+  .site-header {
+    flex-wrap: wrap;
+    gap: 12px 20px;
+    font-size: 14px;
+  }
+
+  .hero {
+    padding-top: 48px;
+    min-height: 0;
+  }
+
+  .headline {
+    --hl-size: 40px;
+    --hl-end: 20px;
+    min-height: 0;
+    padding-bottom: 0;
+  }
+
+  .view-toggle {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    justify-content: flex-end;
+    margin-top: 32px;
+  }
+
+  /* Tiles that are wider than their column on desktop shouldn't overflow the page */
+  .tile {
+    max-width: 100%;
+  }
+}
+
+/* ---------- Custom cursor ---------- */
+/* Small square that follows the pointer; over a project it switches (no animation)
+   to a caption box (same ink + type as the active Wall/Feed tab). */
+.cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  overflow: hidden;
+  background: var(--ink);
+  color: var(--bg);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 200ms ease; /* only fades in/out when entering/leaving the window */
+  will-change: transform;
+}
+
+.cursor.is-visible {
+  opacity: 1;
+}
+
+/* Caption layout: name + year / type / hairline / sentence.
+   Fixed width so name and year line up; the box measures it to size itself. */
+.cursor-content {
+  display: flex;
+  flex-direction: column;
+  width: 270px;
+  padding: 26px; /* the Wall/Feed tab's side padding, on all four sides */
+  visibility: hidden;
+}
+
+.cursor.is-open .cursor-content {
+  visibility: visible;
+}
+
+.cursor-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+}
+
+.cursor-title,
+.cursor-year {
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 1.1;
+  letter-spacing: 0.39px;
+}
+
+.cursor-year {
+  flex: none;
+  opacity: 0.6;
+  font-variant-numeric: tabular-nums;
+}
+
+.cursor-type {
+  margin-top: 4px;
+  font-size: 12px;
+  line-height: 1.3;
+  opacity: 0.6;
+}
+
+/* Hairline like the page divider, then the sentence */
+.cursor-text {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 0.6px solid rgba(255, 255, 255, 0.3);
+  font-size: 12px;
+  line-height: 1.35;
+  opacity: 0.85;
+}
+
+/* Hide the system cursor only when the custom one is running */
+.has-cursor,
+.has-cursor * {
+  cursor: none !important;
+}
+
+/* ---------- Tint for white work ---------- */
+/* A faint dark layer so white-background work (e.g. Yael's site) reads
+   against the white page — no shadow, no border. */
+:root {
+  --tint: rgba(0, 0, 0, 0.02);
+}
+
+.tile[data-tint],
+.post.is-tinted .media {
+  position: relative;
+}
+
+.tile[data-tint]::after,
+.post.is-tinted .media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--tint);
+  pointer-events: none;
+}

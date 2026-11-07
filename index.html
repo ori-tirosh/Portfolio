@@ -1,0 +1,612 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ori Tirosh</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!-- Fonts used in the Figma file: Geist (Regular/Medium/SemiBold) + Crimson Pro Italic -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@1,400&family=Geist:wght@400;500;600&display=swap"
+    rel="stylesheet"
+  />
+  <!-- Lenis smooth scroll (the engine Locomotive Scroll v5 is built on) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lenis@1.3.23/dist/lenis.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Custom cursor: small rectangle; grows into a caption box over a project -->
+  <div class="cursor" aria-hidden="true">
+    <div class="cursor-content">
+      <div class="cursor-head">
+        <span class="cursor-title"></span>
+        <span class="cursor-year"></span>
+      </div>
+      <span class="cursor-type"></span>
+      <span class="cursor-text"></span>
+    </div>
+  </div>
+
+  <!-- Collapsing top: shrinks into a compact sticky header on scroll -->
+  <div class="top">
+  <header class="site-header">
+    <span style="--i: 0">Ori Tirosh</span>
+    <a style="--i: 1" href="https://www.instagram.com/ori.and.t/" target="_blank" rel="noopener">@ori.and.t</a>
+    <span style="--i: 2">orillo4@gmail.com</span>
+  </header>
+
+  <section class="hero">
+    <!-- Split into words (punctuation kept with its word) for the staggered load-in -->
+    <h1 class="headline">
+      <span><span class="word" style="--w: 0">I’m</span>
+        <span class="word" style="--w: 1">a</span>
+        <span class="word" style="--w: 2"><em>graphic</em></span>
+        <span class="word" style="--w: 3"><em>designer</em>,</span>
+        <span class="word" style="--w: 4">type</span>
+        <span class="word" style="--w: 5"><em>enthusiast</em>,</span>
+        <span class="word" style="--w: 6">motion</span>
+        <span class="word" style="--w: 7"><em>lover</em></span>
+        <span class="word" style="--w: 8">and</span>
+        <span class="word" style="--w: 9">illustration</span>
+        <span class="word" style="--w: 10"><em>nerd</em>.</span></span>
+    </h1>
+
+    <div class="view-toggle" style="--i: 6" role="tablist" aria-label="View">
+      <button class="is-active" role="tab" aria-selected="true" data-view="wall">Grid</button>
+      <button role="tab" aria-selected="false" data-view="feed">Feed</button>
+    </div>
+  </section>
+
+  <hr class="divider" style="--i: 6" />
+  </div>
+
+  <!--
+    Wall grid — 6 columns, 45px gutter, 75px margin (Figma layout grid).
+    Each tile keeps its own aspect ratio (--ratio) and width relative to its
+    column (--w), and is centred in its column. Swap the placeholder for an
+    <img> / <video> later; it will fill the tile with object-fit: cover.
+  -->
+  <main class="wall">
+    <!-- Projects — mixed so no two websites or two motion pieces touch, pieces of the
+         same project sit far apart, and Sex Toys is the last project -->
+    <figure class="tile" style="--w: 100%; --ratio: 720 / 714" data-name="Seed Vault" data-title="Seed Vault" data-type="Interactive installation" data-year="" data-feed-order="4" data-feed-size="large" data-timeline data-feed-bg="#000" data-slides="media/seed-vault-installation-01.jpg, media/seed-vault-installation-02.jpg, media/seed-vault-rakefet.jpg, media/seed-vault-galaxy.jpg, media/seed-vault-goddess.jpg, media/seed-vault-hatzav.jpg, media/seed-vault-process-01.jpg, media/seed-vault-process-02.jpg"><video src="media/seed-vault.mp4" poster="media/seed-vault-poster.jpg" muted loop playsinline preload="none" aria-label="Local Seed Vault"></video></figure>
+    <figure class="tile" style="--w: 100%; --ratio: 819 / 1023" data-name="Nirel &amp; Daniella" data-title="Nirel &amp; Daniella" data-type="Invitation" data-year="" data-feed-order="3" data-group="nirel-daniella" data-slides="media/nirel-daniella-invite-orange.jpg, media/nirel-daniella-invite-pink.jpg"><img src="media/nirel-daniella-invite-green.jpg" alt="Nirel &amp; Daniella turning 30 — invitation (green)" loading="lazy" decoding="async" /></figure>
+    <figure class="tile" style="--w: 99.3%; --ratio: 1 / 1" data-name="Yomuledet" data-title="Yomuledet" data-type="Motion poster" data-year="" data-feed-order="6" data-feed-bg="#000" data-slides="media/yomuledet-print.jpg, media/yomuledet-screen.mp4"><video src="media/yomuledet.mp4" poster="media/yomuledet-poster.jpg" muted loop playsinline preload="none" aria-label="Yomuledet — birthday party poster"></video></figure>
+    <figure class="tile" style="--w: 100%; --ratio: 1617 / 1675" data-name="Radical" data-title="Radical" data-type="Illustration" data-year="" data-feed-order="10" data-slides="media/radical-40.jpg, media/radical-41.jpg, media/radical-42.jpg, media/radical-43.jpg, media/radical-44.jpg"><img src="media/radical-45.jpg" alt="Radical — illustrated posters" loading="lazy" decoding="async" /></figure>
+    <figure class="tile" style="--w: 107.5%; --ratio: 16 / 9" data-name="Plato" data-title="Plato" data-type="Web" data-year="" data-feed-order="7" data-group="plato" data-feed-lead data-feed-bg="#000" data-slides="media/plato-mockup-the-cave.jpg, media/plato-mockup-breaking-the-illusion.jpg, media/plato-mockup-dark.jpg"><video src="media/plato-mockup.mp4" poster="media/plato-mockup-poster.jpg" muted loop playsinline preload="none" aria-label="Plato — “The Cave is a Construct” website"></video></figure>
+
+    <figure class="tile" style="--w: 98.8%; --ratio: 222.87 / 315.25" data-name="Plato poster" data-title="Plato" data-type="Poster" data-year="" data-group="plato"><img src="media/plato-poster.jpg" alt="Night with Plato — poster" loading="lazy" decoding="async" /></figure>
+    <figure class="tile" style="--w: 100%; --ratio: 16 / 9" data-name="Wix demo sites" data-feed-bg="#000" data-slides="media/demo-sites-01.mp4, media/demo-sites-02.mp4, media/demo-sites-03.mp4, media/demo-sites-04.mp4" data-title="Wix demo sites" data-type="Web" data-year="" data-feed-order="5"><video src="media/pureppf-mockup.mp4" poster="media/pureppf-mockup-poster.jpg" muted loop playsinline preload="none" aria-label="Wix demo sites — Pure PPF"></video></figure>
+    <figure class="tile" style="--w: 100%; --ratio: 1860 / 2048" data-name="Lasso" data-title="Lasso" data-type="Illustration" data-year="" data-feed-order="9" data-slides="media/lasso-boot.jpg, media/lasso-hat.jpg, media/lasso-lock.jpg"><img src="media/lasso-cookies.jpg" alt="Lasso — illustration" loading="lazy" decoding="async" /></figure>
+    <figure class="tile" style="--w: 100.2%; --ratio: 16 / 9" data-name="Kuromame Market" data-title="Kuromame Market" data-type="Web" data-year="" data-feed-order="1"><video src="media/kuromame-mockup.mp4" poster="media/kuromame-mockup-poster.jpg" muted loop playsinline preload="none" aria-label="Kuromame Market — website"></video></figure>
+    <figure class="tile" style="--w: 98.9%; --ratio: 1080 / 1350" data-name="Nirel &amp; Daniella — photos" data-title="Nirel &amp; Daniella" data-type="Social posts" data-year="" data-group="nirel-daniella"><video src="media/nirel-daniella-photos.mp4" poster="media/nirel-daniella-photos-poster.jpg" muted loop playsinline preload="none" aria-label="Nirel &amp; Daniella turning 30 — photo posts"></video></figure>
+
+    <figure class="tile" style="--w: 100%; --ratio: 1860 / 2048" data-name="Lasso — lock &amp; heart" data-title="Lasso" data-type="Illustration" data-year="" data-feed-skip><img src="media/lasso-lock.jpg" alt="Lasso — lock and heart illustration" loading="lazy" decoding="async" /></figure>
+    <figure class="tile" style="--w: 72.3%; --ratio: 162.99 / 291.5" data-name="Mirrors" data-title="Mirrors" data-type="Card series" data-year="" data-feed-order="2"><video src="media/mirrors.mp4" poster="media/mirrors-poster.jpg" muted loop playsinline preload="none" aria-label="Mirrors — “We Are” card series"></video></figure>
+    <figure class="tile" style="--w: 98.9%; --ratio: 819 / 1023" data-name="Nirel &amp; Daniella (pink)" data-title="Nirel &amp; Daniella" data-type="Invitation" data-year="" data-feed-skip><img src="media/nirel-daniella-invite-pink.jpg" alt="Nirel &amp; Daniella turning 30 — invitation (pink)" loading="lazy" decoding="async" /></figure>
+    <figure class="tile" style="--w: 100%; --ratio: 1280 / 796" data-name="Unity Party" data-title="Unity Party" data-type="Motion / VJ" data-year="" data-feed-order="8"><video src="media/unity-party.mp4" poster="media/unity-party-poster.jpg" muted loop playsinline preload="none" aria-label="Unity Party — Sunset Music VJ loop"></video></figure>
+    <figure class="tile" style="--w: 100%; --ratio: 863 / 899" data-name="The Year Of Us" data-title="The Year Of Us" data-type="Apparel" data-year="" data-feed-order="12" data-feed-bg="#fff" data-slides="media/the-year-of-us-back.jpg"><img src="media/the-year-of-us-front.jpg" alt="The Year Of Us — sweatshirt, front" loading="lazy" decoding="async" /></figure>
+
+    <figure class="tile" style="--w: 107.5%; --ratio: 16 / 9" data-name="Yael Frahi website" data-tint data-title="Yael Frahi" data-type="Web" data-year="" data-feed-order="11" data-slides="media/yael-frahi-01-home.jpg, media/yael-frahi-02-about.jpg, media/yael-frahi-03-contact.jpg, media/yael-frahi-04-home-alt.jpg, media/yael-frahi-05-index-gallery.jpg, media/yael-frahi-06-index-gallery-hover.jpg, media/yael-frahi-07-index-list.jpg"><video src="media/yael-frahi-website.mp4" poster="media/yael-frahi-website-poster.jpg" muted loop playsinline preload="none" aria-label="Yael Frahi — website screens"></video></figure>
+    <figure class="tile" style="--w: 108.3%; --ratio: 244.32 / 171.92" data-name="3D exploration" data-title="Sex Toys by Adobe Illustrator" data-type="Type exploration" data-year="" data-feed-order="13"><img src="media/3d-exploration.jpg" alt="Sex Toys by Adobe Illustrator — 3D type exploration" loading="lazy" decoding="async" /></figure>
+
+    <!-- Placeholders for upcoming projects -->
+    <figure class="tile" style="--w: 69.9%; --ratio: 157.72 / 292" data-name="Rectangle 14"></figure>
+    <figure class="tile" style="--w: 74.8%; --ratio: 168.58 / 259.65" data-name="Rectangle 16"></figure>
+    <figure class="tile" style="--w: 74.8%; --ratio: 168.58 / 259.65" data-name="Placeholder 13"></figure>
+    <figure class="tile" style="--w: 100.2%; --ratio: 226 / 292" data-name="Placeholder 14"></figure>
+    <figure class="tile" style="--w: 107.5%; --ratio: 242.47 / 184.52" data-name="Placeholder 15"></figure>
+    <figure class="tile" style="--w: 69.9%; --ratio: 157.72 / 292" data-name="Placeholder 16"></figure>
+    <figure class="tile" style="--w: 100%; --ratio: 225.45 / 281.81" data-name="Placeholder 17"></figure>
+    <figure class="tile" style="--w: 99.3%; --ratio: 223.91 / 224.24" data-name="Placeholder 18"></figure>
+    <figure class="tile" style="--w: 100.2%; --ratio: 226 / 292" data-name="Placeholder 19"></figure>
+    <figure class="tile" style="--w: 99.3%; --ratio: 223.91 / 224.24" data-name="Placeholder 20"></figure>
+    <figure class="tile" style="--w: 74.8%; --ratio: 168.58 / 259.65" data-name="Placeholder 21"></figure>
+    <figure class="tile" style="--w: 100.2%; --ratio: 226 / 160.98" data-name="Placeholder 22"></figure>
+    <figure class="tile" style="--w: 72.3%; --ratio: 162.99 / 291.5" data-name="Placeholder 23"></figure>
+  </main>
+
+  <!--
+    Feed view — Instagram-style column, centred on the grid (columns 3–4).
+    Built by script from the wall tiles that have media, in the same order and
+    the same ratio. Tile attributes shape the feed:
+      data-group      tiles of one project become a single carousel post
+      data-feed-lead  this group member leads the post (first slide, ratio, position)
+      data-slides     extra feed-only images/videos, right after the tile's own media
+      data-feed-bg    carousel backdrop behind slides of a different shape
+      data-feed-size="large"  bigger post (wide projects get it automatically)
+      data-timeline   progress line + time left for the post's video
+      data-feed-order position in the feed (independent of the wall order)
+      data-feed-skip  tile appears on the wall only
+      data-tint       faint dark overlay (for white work that blends into the page)
+  -->
+  <main class="feed" hidden></main>
+
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.23/dist/lenis.min.js"></script>
+  <script>
+    // Smooth, flowy scrolling. Lenis drives the real window scroll, so the sticky
+    // header and the scroll-linked collapse below keep working unchanged.
+    // Skipped for visitors who prefer reduced motion.
+    if (window.Lenis && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      window.lenis = new Lenis({
+        autoRaf: true,
+        lerp: 0.075, // lower = softer, longer glide
+        wheelMultiplier: 1,
+      });
+    }
+
+    // Slot-machine hover: split small texts into letters. Each letter rolls up and
+    // an identical copy rolls in from below (CSS in "Slot hover").
+    // The original text stays available to screen readers via .sr-only.
+    document.querySelectorAll('.site-header > *, .view-toggle button').forEach(el => {
+      const label = el.textContent;
+      el.textContent = '';
+      el.classList.add('slot');
+
+      const sr = document.createElement('span');
+      sr.className = 'sr-only';
+      sr.textContent = label;
+
+      const chars = document.createElement('span');
+      chars.setAttribute('aria-hidden', 'true');
+      [...label].forEach((ch, n) => {
+        if (ch === ' ') { chars.append(' '); return; }
+        const c = document.createElement('span');
+        c.className = 'char';
+        c.style.setProperty('--c', n);
+        const inner = document.createElement('span');
+        inner.className = 'char-inner';
+        inner.dataset.char = ch;
+        inner.textContent = ch;
+        c.append(inner);
+        chars.append(c);
+      });
+      el.append(sr, chars);
+    });
+
+    // Stagger tiles in a diagonal wave: delay index = row + column.
+    // Reads the live column count so it also works on the smaller-screen layouts.
+    (() => {
+      const wall = document.querySelector('.wall');
+      const cols = getComputedStyle(wall).gridTemplateColumns.split(' ').length || 6;
+      wall.querySelectorAll('.tile').forEach((tile, n) => {
+        tile.style.setProperty('--i', Math.floor(n / cols) + (n % cols));
+      });
+    })();
+
+    // Collapsing header.
+    // The .top block is sticky with a negative `top`, so it scrolls up by exactly the
+    // distance needed for the collapsed layout, then sticks.
+    // Collapsed layout: name row → headline on one line (28px) with the Wall/Feed
+    // toggle centred on it → divider below.
+    // --p (0 → 1) drives the headline size/width and the small offsets that bring the
+    // headline, toggle and line together.
+    (() => {
+      const top = document.querySelector('.top');
+      const header = document.querySelector('.site-header');
+      const toggle = document.querySelector('.view-toggle');
+      const divider = document.querySelector('.divider');
+      const headline = document.querySelector('.headline');
+      const text = headline.firstElementChild;
+      const root = document.documentElement;
+      let distance = 1;
+
+      const GAP_UNDER_HEADER = 26; // name row → collapsed headline
+      const GAP_TOGGLE_LINE = 23.8; // toggle → divider (same as Figma resting gap)
+
+      // Layout position relative to the .top block — ignores transforms, so it's
+      // unaffected by scroll and by the load-in animations still running.
+      const rel = el => {
+        let y = 0;
+        for (let n = el; n && n !== top; n = n.offsetParent) y += n.offsetTop;
+        return y;
+      };
+
+      function measure() {
+        root.style.setProperty('--hl-shift', '0px');
+        root.style.setProperty('--toggle-shift', '0px');
+
+        // Lock the headline box to its resting height so the live font-size
+        // change never shifts the line / grid below it.
+        root.style.setProperty('--p', '0');
+        headline.style.minHeight = '';
+        headline.style.minHeight = `${headline.offsetHeight}px`;
+
+        const headerH = header.offsetHeight;
+        const lineTop = rel(divider);
+        const toggleTop = rel(toggle);
+        const toggleH = toggle.offsetHeight;
+        const textBottom = rel(text) + text.offsetHeight; // bottom-anchored, same at any --p
+
+        // Collapsed headline height (measured at its final size)
+        root.style.setProperty('--p', '1');
+        const textH = text.offsetHeight;
+
+        const beside = getComputedStyle(toggle).position === 'absolute';
+        const hlTop = headerH + (beside ? GAP_UNDER_HEADER : 16);
+        const targetToggleTop = beside ? hlTop + textH / 2 - toggleH / 2 : hlTop + textH + 12;
+        const targetLine = targetToggleTop + toggleH + (beside ? GAP_TOGGLE_LINE : 12);
+
+        distance = Math.max(1, lineTop - targetLine);
+        top.style.top = `${-distance}px`;
+        window.collapseDistance = distance;
+        root.style.setProperty('--hl-shift', `${hlTop - (textBottom - textH - distance)}px`);
+        root.style.setProperty('--toggle-shift', `${targetToggleTop - (toggleTop - distance)}px`);
+        update();
+      }
+
+      function update() {
+        const p = Math.min(1, Math.max(0, window.scrollY / distance));
+        root.style.setProperty('--p', p.toFixed(4));
+      }
+
+      let ticking = false;
+      window.addEventListener('scroll', () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => { update(); ticking = false; });
+      }, { passive: true });
+      window.addEventListener('resize', measure);
+      document.fonts.ready.then(measure);
+      measure();
+    })();
+
+    // Wall / Feed toggle — shows one view; its staggered entrance replays on show.
+    (() => {
+      const views = {
+        wall: document.querySelector('.wall'),
+        feed: document.querySelector('.feed'),
+      };
+      const buttons = [...document.querySelectorAll('.view-toggle button')];
+
+      buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const name = btn.dataset.view;
+          if (btn.classList.contains('is-active')) return;
+
+          buttons.forEach(b => {
+            const active = b === btn;
+            b.classList.toggle('is-active', active);
+            b.setAttribute('aria-selected', active);
+          });
+          // After the first switch, the wall replays without the intro delay
+          document.documentElement.classList.add('view-switched');
+          Object.entries(views).forEach(([key, el]) => { el.hidden = key !== name; });
+
+          // Keep the header as it is, but start the new view from its top
+          const d = window.collapseDistance || 0;
+          if (window.scrollY > d) {
+            window.lenis ? window.lenis.scrollTo(d, { immediate: true }) : window.scrollTo(0, d);
+          }
+        });
+      });
+    })();
+
+    // Build the feed from the wall (same projects, order and ratios).
+    // Tiles sharing a data-group become ONE post (at the first tile's place), and a
+    // tile's data-slides adds extra images — more than one image → a carousel.
+    (() => {
+      const feed = document.querySelector('.feed');
+
+      const entries = [];
+      const groups = new Map();
+      document.querySelectorAll('.wall .tile').forEach(tile => {
+        const media = tile.querySelector('img, video');
+        if (!media || 'feedSkip' in tile.dataset) return; // data-feed-skip: wall only
+        const clone = media.cloneNode(true);
+        if (clone.tagName === 'VIDEO') clone.muted = true;
+
+        const group = tile.dataset.group;
+        if (group && groups.has(group)) {
+          const entry = groups.get(group);
+          if ('feedLead' in tile.dataset) {
+            // This tile leads the group's post: its media goes first, its settings
+            // (ratio, slides, backdrop) apply, and the post moves to its position
+            entry.slides.unshift(clone);
+            entry.tile = tile;
+            entries.splice(entries.indexOf(entry), 1);
+            entries.push(entry);
+          } else {
+            entry.slides.push(clone);
+          }
+          return;
+        }
+        const entry = { tile, slides: [clone] };
+        entries.push(entry);
+        if (group) groups.set(group, entry);
+      });
+
+      // Feed order: data-feed-order on the (lead) tile; tiles without one keep wall order after
+      entries.forEach((e, k) => { e.order = Number(e.tile.dataset.feedOrder) || 1000 + k; });
+      entries.sort((a, b) => a.order - b.order);
+
+      // Extra feed-only images listed on the tile (data-slides): they go right after
+      // the tile's own media, before any other tiles of the same group.
+      entries.forEach(({ tile, slides }) => {
+        const extras = (tile.dataset.slides || '').split(',').map(src => src.trim()).filter(Boolean)
+          .map((src, k) => {
+            if (/\.mp4$/.test(src)) {
+              const video = document.createElement('video');
+              Object.assign(video, { src, muted: true, loop: true, playsInline: true, preload: 'none' });
+              video.poster = src.replace(/\.mp4$/, '-poster.jpg');
+              video.setAttribute('aria-label', `${tile.dataset.name} — video ${k + 2}`);
+              return video;
+            }
+            const img = document.createElement('img');
+            img.src = src;
+            img.alt = `${tile.dataset.name} — image ${k + 2}`;
+            img.loading = 'lazy';
+            img.decoding = 'async';
+            return img;
+          });
+        slides.splice(1, 0, ...extras);
+      });
+
+      // Feed-only video post after a project (data-feed-video + data-feed-ratio on the tile)
+      const feedOnly = [];
+      entries.forEach(entry => {
+        feedOnly.push(entry);
+        const src = entry.tile.dataset.feedVideo;
+        if (!src) return;
+        const video = document.createElement('video');
+        Object.assign(video, { src, muted: true, loop: true, playsInline: true, preload: 'none' });
+        video.poster = src.replace(/\.mp4$/, '-poster.jpg');
+        video.setAttribute('aria-label', `${entry.tile.dataset.name} — photos`);
+        feedOnly.push({
+          tile: entry.tile,
+          slides: [video],
+          ratio: entry.tile.dataset.feedRatio,
+          name: `${entry.tile.dataset.name} — photos`,
+        });
+      });
+
+      feedOnly.forEach(({ tile, slides, ratio: ownRatio }, n) => {
+        const ratio = ownRatio || tile.style.getPropertyValue('--ratio').trim();
+        const [w, h] = ratio.split('/').map(Number);
+
+        const post = document.createElement('article');
+        post.className = 'post';
+        post.style.setProperty('--i', n);
+        post.style.setProperty('--ratio', ratio);
+        post.style.setProperty('--ar', w / h);
+        // Wide projects (e.g. 16:9 websites) get a bigger, 4-column post
+        // ...or when the tile asks for it (data-feed-size="large")
+        if (w / h >= 1.6 || tile.dataset.feedSize === 'large') post.classList.add('is-wide');
+
+        // Light overlay for white-background work that disappears on the page (data-tint)
+        if ('tint' in tile.dataset) post.classList.add('is-tinted');
+
+        // Carousel backdrop for slides shown whole inside the carousel (data-feed-bg)
+        if (tile.dataset.feedBg) post.style.setProperty('--slide-bg', tile.dataset.feedBg);
+
+        const count = slides.length;
+
+        if (count > 1) {
+          post.innerHTML = `
+            <div class="carousel" tabindex="0" aria-roledescription="carousel"
+                 aria-label="${tile.dataset.name}, slide 1 of ${count}">
+              <div class="carousel-track"></div>
+            </div>
+            <div class="post-meta"><span class="slide-count" aria-hidden="true">1/${count}</span></div>`;
+          const track = post.querySelector('.carousel-track');
+          slides.forEach(media => {
+            const slide = document.createElement('div');
+            slide.className = 'media slide';
+            slide.append(media);
+            track.append(slide);
+          });
+        } else {
+          const box = document.createElement('div');
+          box.className = 'media';
+          box.append(slides[0]);
+          post.append(box);
+        }
+        // Optional timeline under a video post (data-timeline on the tile)
+        if ('timeline' in tile.dataset && post.querySelector('video')) {
+          post.classList.add('has-timeline');
+          if (!post.querySelector('.post-meta')) post.insertAdjacentHTML('beforeend', '<div class="post-meta"></div>');
+          post.querySelector('.post-meta').insertAdjacentHTML('afterbegin', `
+            <div class="timeline">
+              <div class="timeline-track" role="progressbar" aria-label="${tile.dataset.name} progress"
+                   aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                <div class="timeline-fill"></div>
+              </div>
+              <span class="timeline-time">0:00</span>
+            </div>`);
+        }
+        feed.append(post);
+      });
+    })();
+
+    // Timelines: progress line + time remaining; click the line to jump.
+    document.querySelectorAll('.post.has-timeline').forEach(post => {
+      const video = post.querySelector('video');
+      const track = post.querySelector('.timeline-track');
+      const fill = post.querySelector('.timeline-fill');
+      const time = post.querySelector('.timeline-time');
+      const fmt = s => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
+      let raf = 0;
+
+      function render() {
+        const d = video.duration || 0;
+        const p = d ? video.currentTime / d : 0;
+        fill.style.transform = `scaleX(${p})`;
+        time.textContent = d ? `-${fmt(Math.max(0, d - video.currentTime))}` : '0:00';
+        track.setAttribute('aria-valuenow', Math.round(p * 100));
+      }
+      function loop() { render(); raf = requestAnimationFrame(loop); }
+
+      video.addEventListener('loadedmetadata', render);
+      video.addEventListener('play', () => { cancelAnimationFrame(raf); loop(); });
+      video.addEventListener('pause', () => { cancelAnimationFrame(raf); render(); });
+      video.addEventListener('seeked', render);
+
+      track.addEventListener('click', e => {
+        if (!video.duration) return;
+        const r = track.getBoundingClientRect();
+        video.currentTime = ((e.clientX - r.left) / r.width) * video.duration;
+      });
+    });
+
+    // Project captions for the cursor, from each wall tile:
+    //   data-title (name), data-year, data-type (Web, Poster, Illustration…), data-caption (sentence).
+    // Missing year / sentence show placeholders. Feed posts take their tile's caption.
+    (() => {
+      const DUMMY = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
+      const KEYS = ['cursorTitle', 'cursorYear', 'cursorType', 'cursorText'];
+      const tiles = [...document.querySelectorAll('.wall .tile')].filter(t => t.querySelector('img, video'));
+      tiles.forEach(tile => {
+        const d = tile.dataset;
+        d.cursorTitle = d.title || d.name.replace(/\s+—.*$|\s+\(.*\)$/, '');
+        d.cursorYear = d.year || '20XX';
+        d.cursorType = d.type || '';
+        d.cursorText = d.caption || DUMMY;
+      });
+      // Feed posts: match by the carousel/media label's project name
+      document.querySelectorAll('.feed .post').forEach(post => {
+        const label = post.querySelector('.carousel')?.getAttribute('aria-label')
+          || post.querySelector('img')?.alt || post.querySelector('video')?.getAttribute('aria-label') || '';
+        const src = post.querySelector('img, video')?.getAttribute('src');
+        const tile = tiles.find(t => t.querySelector('img, video')?.getAttribute('src') === src)
+          || tiles.find(t => label.startsWith(t.dataset.name));
+        if (!tile) return;
+        KEYS.forEach(k => { post.dataset[k] = tile.dataset[k]; });
+      });
+    })();
+
+    // Custom cursor (mouse / trackpad only)
+    (() => {
+      const fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
+      const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!fine || calm) return;
+
+      const cursor = document.querySelector('.cursor');
+      const content = cursor.querySelector('.cursor-content');
+      const title = cursor.querySelector('.cursor-title');
+      const year = cursor.querySelector('.cursor-year');
+      const type = cursor.querySelector('.cursor-type');
+      const text = cursor.querySelector('.cursor-text');
+      document.documentElement.classList.add('has-cursor');
+
+      const SMALL = { w: 10, h: 10 }; // square
+      let x = -100, y = -100, cx = x, cy = y, current = null;
+
+      function size(w, h) {
+        cursor.style.width = `${w}px`;
+        cursor.style.height = `${h}px`;
+      }
+      size(SMALL.w, SMALL.h);
+
+      function setTarget(el) {
+        if (el === current) return;
+        current = el;
+        if (el) {
+          title.textContent = el.dataset.cursorTitle;
+          year.textContent = el.dataset.cursorYear;
+          type.textContent = el.dataset.cursorType;
+          type.hidden = !el.dataset.cursorType;
+          text.textContent = el.dataset.cursorText;
+          cursor.classList.add('is-open');
+          size(content.offsetWidth, content.offsetHeight); // grow to fit the text
+        } else {
+          cursor.classList.remove('is-open');
+          size(SMALL.w, SMALL.h);
+        }
+      }
+
+      window.addEventListener('pointermove', e => {
+        x = e.clientX; y = e.clientY;
+        cursor.classList.add('is-visible');
+        setTarget(e.target.closest('[data-cursor-title]'));
+      }, { passive: true });
+      document.addEventListener('pointerleave', () => cursor.classList.remove('is-visible'));
+      // Content under a still pointer changes while scrolling
+      window.addEventListener('scroll', () => {
+        const el = document.elementFromPoint(x, y);
+        setTarget(el ? el.closest('[data-cursor-title]') : null);
+      }, { passive: true });
+
+      (function follow() {
+        cx += (x - cx) * 0.25;
+        cy += (y - cy) * 0.25;
+        cursor.style.transform = `translate(${cx}px, ${cy}px)`;
+        requestAnimationFrame(follow);
+      })();
+    })();
+
+    // Videos play only while on screen (and in the visible view)
+    (() => {
+      const io = new IntersectionObserver(entries => {
+        entries.forEach(({ target, isIntersecting }) => {
+          if (isIntersecting) target.play().catch(() => {});
+          else target.pause();
+        });
+      }, { rootMargin: '200px 0px' });
+      document.querySelectorAll('video').forEach(v => { v.muted = true; io.observe(v); });
+    })();
+
+    // Feed carousels — right half = next, left half = previous, swipe/drag, arrow keys.
+    document.querySelectorAll('.carousel').forEach(carousel => {
+      const track = carousel.querySelector('.carousel-track');
+      const count = track.children.length;
+      const post = carousel.closest('.post');
+      const counter = post.querySelector('.slide-count');
+      const timedVideo = post.classList.contains('has-timeline') ? post.querySelector('video') : null;
+      const label = carousel.getAttribute('aria-label').split(',')[0];
+      let index = 0;
+
+      function go(n) {
+        index = Math.max(0, Math.min(count - 1, n));
+        track.style.transform = `translateX(${-index * 100}%)`;
+        if (counter) counter.textContent = `${index + 1}/${count}`;
+        // The timeline belongs to the video — only show it on that slide
+        if (timedVideo) post.classList.toggle('timeline-off', !track.children[index].contains(timedVideo));
+        carousel.setAttribute('aria-label', `${label}, slide ${index + 1} of ${count}`);
+        carousel.classList.toggle('at-start', index === 0);
+        carousel.classList.toggle('at-end', index === count - 1);
+      }
+
+      // Drag / swipe (pointer events cover mouse, touch and pen)
+      let startX = null;
+      let dragX = 0;
+      carousel.addEventListener('pointerdown', e => {
+        startX = e.clientX;
+        dragX = 0;
+      });
+      carousel.addEventListener('pointermove', e => {
+        if (startX === null) return;
+        dragX = e.clientX - startX;
+        if (Math.abs(dragX) > 4) {
+          carousel.classList.add('is-dragging');
+          carousel.setPointerCapture(e.pointerId);
+          track.style.transform = `translateX(calc(${-index * 100}% + ${dragX}px))`;
+        }
+      });
+      const endDrag = () => {
+        if (startX === null) return;
+        startX = null;
+        if (!carousel.classList.contains('is-dragging')) return;
+        carousel.classList.remove('is-dragging');
+        go(Math.abs(dragX) > 40 ? index - Math.sign(dragX) : index);
+      };
+      carousel.addEventListener('pointerup', endDrag);
+      carousel.addEventListener('pointercancel', endDrag);
+
+      // Click: right half → next, left half → previous (ignored after a drag)
+      carousel.addEventListener('click', e => {
+        if (Math.abs(dragX) > 4) { dragX = 0; return; }
+        const rect = carousel.getBoundingClientRect();
+        go(index + (e.clientX - rect.left > rect.width / 2 ? 1 : -1));
+      });
+
+      carousel.addEventListener('keydown', e => {
+        if (e.key === 'ArrowRight') go(index + 1);
+        if (e.key === 'ArrowLeft') go(index - 1);
+      });
+
+      go(0);
+    });
+  </script>
+</body>
+</html>
