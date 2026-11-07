@@ -1,0 +1,4 @@
+.DS_Store
+
+# Raw screen recordings (too large for GitHub)
+*.mov
