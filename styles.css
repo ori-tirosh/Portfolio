@@ -330,6 +330,12 @@ body {
   object-fit: contain;
 }
 
+/* data-feed-fit="cover": slides fill the carousel edge to edge */
+.post.fit-cover .slide > img,
+.post.fit-cover .slide > video {
+  object-fit: cover;
+}
+
 /* Row under a post: timeline (if any) + slide counter, same type as the timeline time */
 .post-meta {
   display: flex;
@@ -666,4 +672,32 @@ html.view-switched {
   inset: 0;
   background: var(--tint);
   pointer-events: none;
+}
+
+/* ---------- Grid tiles that open the feed ---------- */
+.tile.is-link {
+  cursor: pointer;
+}
+
+.tile.is-link:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 4px;
+}
+
+/* ---------- Empty grid tiles: "Coming soon" ---------- */
+/* Same thin stroke as the divider; label set like the Grid/Feed tabs */
+.tile:empty {
+  display: grid;
+  place-items: center;
+  background: none;
+  border: 0.6px solid var(--ink);
+}
+
+.tile:empty::after {
+  content: "Coming soon";
+  color: var(--ink);
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 1.1;
+  letter-spacing: 0.39px;
 }
