@@ -167,7 +167,11 @@
     // Smooth, flowy scrolling. Lenis drives the real window scroll, so the sticky
     // header and the scroll-linked collapse below keep working unchanged.
     // Skipped for visitors who prefer reduced motion.
-    if (window.Lenis && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    // Touch screens keep the phone's own scrolling: Lenis doesn't smooth touch
+    // anyway, and its class changes on <html> during each scroll made iOS
+    // Safari flicker the sticky header.
+    if (window.Lenis && !matchMedia('(prefers-reduced-motion: reduce)').matches
+        && matchMedia('(hover: hover) and (pointer: fine)').matches) {
       window.lenis = new Lenis({
         autoRaf: true,
         lerp: 0.075, // lower = softer, longer glide
@@ -228,7 +232,10 @@
       const divider = document.querySelector('.divider');
       const headline = document.querySelector('.headline');
       const text = headline.firstElementChild;
-      const root = document.documentElement;
+      // Scroll variables live on .top (their only users), not on <html>: updating
+      // <html> every scroll frame restyles the whole page, which iOS Safari
+      // can't keep up with while it scrolls.
+      const root = top;
       let distance = 1;
 
       const GAP_UNDER_HEADER = 26; // name row → collapsed headline

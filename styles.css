@@ -730,6 +730,12 @@ html.view-switched {
     position: relative;
     top: auto;
   }
+
+  /* No full-screen tint layer on touch screens either: a fixed layer over the
+     sticky header is another thing iOS Safari redraws late while scrolling */
+  .page-veil {
+    display: none !important;
+  }
 }
 
 .page-veil[hidden] {
