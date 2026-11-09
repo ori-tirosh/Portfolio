@@ -468,11 +468,11 @@
 
         if (count > 1) {
           post.innerHTML = `
+            <div class="post-top"><span class="slide-count" aria-hidden="true">1/${count}</span></div>
             <div class="carousel" tabindex="0" aria-roledescription="carousel"
                  aria-label="${tile.dataset.name}, slide 1 of ${count}">
               <div class="carousel-track"></div>
-            </div>
-            <div class="post-meta"><span class="slide-count" aria-hidden="true">1/${count}</span></div>`;
+            </div>`;
           const track = post.querySelector('.carousel-track');
           slides.forEach(media => {
             const slide = document.createElement('div');

@@ -214,6 +214,7 @@ body {
    Width also capped so a tall post still fits under the collapsed header. */
 .post > .media,
 .post > .carousel,
+.post > .post-top,
 .post > .post-meta {
   width: min(100%, calc((100svh - 220px) * var(--ar, 0.8)));
   margin-inline: auto;
@@ -228,6 +229,7 @@ body {
 /* Post with a timeline: leave room for it under the video */
 .post.has-timeline > .media,
 .post.has-timeline > .carousel,
+.post.has-timeline > .post-top,
 .post.has-timeline > .post-meta {
   width: min(100%, calc((100svh - 270px) * var(--ar, 0.8)));
   margin-inline: auto;
@@ -348,8 +350,14 @@ body {
   min-height: 15px;
 }
 
+/* Slide counter: above the image, top-left */
+.post-top {
+  display: flex;
+  margin-bottom: 14px;
+  min-height: 15px;
+}
+
 .slide-count {
-  margin-left: auto;
   font-weight: 600;
   font-size: 13px;
   line-height: 1.1;
