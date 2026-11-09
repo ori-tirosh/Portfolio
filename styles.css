@@ -50,6 +50,7 @@ body {
   background: var(--bg);
   display: flex;
   align-items: center;
+  justify-content: center; /* centred on the page (Figma "Frame 4") */
   gap: 25px;
   padding: 29px var(--margin) 0;
   font-weight: 500;
@@ -193,6 +194,8 @@ body {
   column-gap: var(--gutter);
   row-gap: calc(var(--gutter) * 2);
   margin: 45.7px var(--margin) var(--margin);
+  /* extra room after the last post so the footer doesn't rise right under it */
+  margin-bottom: max(var(--margin), 16svh);
 }
 
 .post {
@@ -543,8 +546,8 @@ html.view-switched {
   }
 
   .site-header {
-    flex-wrap: wrap;
-    gap: 12px 20px;
+    justify-content: space-between; /* name left, email right, Instagram between */
+    gap: 12px;
     font-size: 14px;
   }
 
@@ -555,7 +558,8 @@ html.view-switched {
 
   .headline {
     --hl-size: 40px;
-    --hl-end: 20px;
+    /* Smallest size on scroll: keeps it on 3 lines (≈30px on a 360px phone) */
+    --hl-end: min(30px, 8.3vw);
     min-height: 0;
     padding-bottom: 0;
   }
@@ -700,4 +704,188 @@ html.view-switched {
   font-size: 13px;
   line-height: 1.1;
   letter-spacing: 0.39px;
+}
+
+/* ---------- Footer reveal ---------- */
+/* The page sticks when its bottom reaches the window's bottom (--page-h is set by
+   script), so it stops moving while the footer slides up over it. */
+.page {
+  display: flow-root; /* keep the wall/feed bottom margin inside the page */
+  position: sticky;
+  top: min(0px, calc(100svh - var(--page-h, 100svh)));
+  z-index: 0;
+  background: var(--bg);
+}
+
+.page-veil {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  background: var(--ink); /* same dark grey as the site */
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ---------- Footer ---------- */
+/* Figma: a 1038 × 764.75 #333 card, centred in the 1728 frame and sitting on the
+   bottom edge. Sizes are Figma px × --u, which is 1px at 1728 wide and scales down
+   with the window. Small text stays at 16px. */
+.site-footer {
+  --u: min(1px, calc(100vw / 1728));
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  pointer-events: none; /* the page beside the card stays hoverable */
+}
+
+.footer-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: calc(1038 * var(--u));
+  min-height: calc(764.75 * var(--u));
+  padding-top: calc(101.5 * var(--u));
+  background: var(--ink);
+  color: #fff;
+  text-align: center;
+  pointer-events: auto;
+}
+
+.site-footer p {
+  margin: 0;
+}
+
+/* "Thanks for browsing!": Geist Light 43.99 + Crimson Pro Light Italic 54.71 */
+.footer-thanks {
+  font-weight: 300;
+  font-size: max(24px, calc(43.985 * var(--u)));
+  line-height: 0.89;
+  letter-spacing: -0.05em; /* -2.2px */
+  white-space: nowrap;
+}
+
+.footer-thanks em {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 300;
+  font-size: 1.2439em; /* 54.71 next to 43.99 */
+  letter-spacing: -0.03em; /* -1.64px */
+}
+
+/* "LETS WORK TOGETHER": Geist Light 100, two lines in a 645.6 box */
+.footer-cta {
+  max-width: calc(645.58 * var(--u));
+  margin-top: calc(56.8 * var(--u)) !important;
+  font-weight: 300;
+  font-size: max(40px, calc(100 * var(--u)));
+  line-height: 0.94;
+  letter-spacing: -0.04em; /* -4px */
+  text-transform: uppercase;
+}
+
+/* Name / spaced-out year / Portfolio, stacked and centred */
+.footer-sign {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 13.6px; /* 31.2 between lines */
+  margin: calc(56.8 * var(--u)) 0 calc(80.8 * var(--u)) !important;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.1;
+  letter-spacing: -0.32px;
+}
+
+.footer-year {
+  letter-spacing: 24.64px;
+  margin-right: -24.64px; /* the trailing space after the last digit, so it centres */
+}
+
+/* Bottom: two cells split by 0.6px white lines, one link centred in each */
+.footer-links {
+  align-self: stretch;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin-top: auto;
+  border-top: 0.6px solid #fff;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.1;
+  letter-spacing: -0.32px;
+}
+
+.footer-links a {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: calc(127.85 * var(--u));
+  padding: calc(59.7 * var(--u)) 12px 24px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.footer-links a + a {
+  border-left: 0.6px solid #fff;
+}
+
+/* Narrower windows: the card takes the grid's width and its type scales with it */
+@media (max-width: 1100px) {
+  .site-footer {
+    --u: calc((100vw - 2 * var(--margin)) / 1038);
+  }
+}
+
+@media (max-width: 640px) {
+  .footer-card {
+    min-height: 0;
+    padding-top: 40px;
+  }
+
+  .footer-cta {
+    max-width: none;
+  }
+
+  .footer-links {
+    margin-top: 40px;
+  }
+
+  .footer-links a {
+    min-height: 0;
+    padding: 20px 8px;
+  }
+
+  .footer-sign,
+  .footer-links {
+    font-size: 14px;
+  }
+}
+
+/* Beside a feed carousel: the pixel arrow (Figma "Group 93") instead of the square,
+   centred on the pointer; flipped for "previous" */
+.cursor-arrow {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  fill: var(--ink);
+}
+
+.cursor.is-arrow:not(.is-open) {
+  margin: -15px 0 0 -9px;
+  background: none;
+}
+
+.cursor.is-arrow:not(.is-open) .cursor-arrow {
+  display: block;
+}
+
+.cursor.is-prev .cursor-arrow {
+  transform: scaleX(-1);
+}
+
+/* Cursor turns white over the dark footer */
+.cursor.on-dark {
+  background: #fff;
+  color: var(--ink);
 }

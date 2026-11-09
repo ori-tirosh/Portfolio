@@ -6,11 +6,13 @@
   <title>Ori Tirosh</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <!-- Fonts used in the Figma file: Geist (Regular/Medium/SemiBold) + Crimson Pro Italic -->
+  <!-- Fonts used in the Figma file: Geist (Light/Regular/Medium/SemiBold) + Crimson Pro Italic (Light/Regular) -->
   <link
-    href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@1,400&family=Geist:wght@400;500;600&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@1,300;1,400&family=Geist:wght@300;400;500;600&display=swap"
     rel="stylesheet"
   />
+  <!-- Geist's → arrow isn't in Google's default subsets; load just that glyph -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@500&text=%E2%86%92&display=swap" />
   <!-- Lenis smooth scroll (the engine Locomotive Scroll v5 is built on) -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lenis@1.3.23/dist/lenis.css" />
   <link rel="stylesheet" href="styles.css" />
@@ -26,7 +28,16 @@
       <span class="cursor-type"></span>
       <span class="cursor-text"></span>
     </div>
+    <!-- Pixel arrow (Figma "Group 93"): shown beside a feed carousel -->
+    <svg class="cursor-arrow" width="18" height="30" viewBox="0 0 18 30" aria-hidden="true">
+      <rect x="0" y="0" width="6" height="6" /><rect x="6" y="6" width="6" height="6" />
+      <rect x="12" y="12" width="6" height="6" /><rect x="6" y="18" width="6" height="6" />
+      <rect x="0" y="24" width="6" height="6" />
+    </svg>
   </div>
+
+  <!-- Page content. When its end is reached it holds still and the footer slides up over it -->
+  <div class="page">
 
   <!-- Collapsing top: shrinks into a compact sticky header on scroll -->
   <div class="top">
@@ -73,7 +84,7 @@
     <figure class="tile" style="--w: 100%; --ratio: 720 / 714" data-name="Seed Vault" data-title="Seed Vault" data-type="Motion, Installation" data-year="2024" data-feed-order="1" data-feed-size="large" data-timeline data-feed-bg="#000" data-slides="media/seed-vault-installation-01.jpg, media/seed-vault-installation-02.jpg, media/seed-vault-rakefet.jpg, media/seed-vault-galaxy.jpg, media/seed-vault-goddess.jpg, media/seed-vault-hatzav.jpg, media/seed-vault-process-01.jpg, media/seed-vault-process-02.jpg" data-caption="By Ori Tirosh &amp; Ruth Yarmolinsky"><video src="media/seed-vault.mp4" poster="media/seed-vault-poster.jpg" muted loop playsinline preload="none" aria-label="Local Seed Vault"></video></figure>
     <figure class="tile" style="--w: 100%; --ratio: 819 / 1023" data-name="Nirel &amp; Daniella" data-title="Nirel &amp; Daniella" data-type="Poster" data-year="2026" data-feed-order="2" data-group="nirel-daniella" data-slides="media/nirel-daniella-invite-orange.jpg, media/nirel-daniella-invite-pink.jpg" data-caption="Invitation design + design exploration"><img src="media/nirel-daniella-invite-green.jpg" alt="Nirel &amp; Daniella turning 30 — invitation (green)" loading="lazy" decoding="async" /></figure>
     <figure class="tile" style="--w: 99.3%; --ratio: 1 / 1" data-name="Yomuledet" data-title="Yomuledet" data-type="Motion poster" data-year="2025" data-feed-order="9" data-feed-bg="#000" data-slides="media/yomuledet-print.jpg, media/yomuledet-screen.mp4"><video src="media/yomuledet.mp4" poster="media/yomuledet-poster.jpg" muted loop playsinline preload="none" aria-label="Yomuledet — birthday party poster"></video></figure>
-    <figure class="tile" style="--w: 107.5%; --ratio: 3 / 2" data-name="Historia Naturalis" data-group="historia-naturalis" data-feed-size="large" data-title="Historia Naturalis" data-type="Book design, Illustration" data-year="2022" data-feed-order="11" data-feed-slides="media/historia-naturalis-01.jpg, media/historia-naturalis-04.jpg, media/historia-naturalis-02.jpg, media/historia-naturalis-03.jpg, media/historia-naturalis-05.jpg, media/historia-naturalis-06.jpg, media/historia-naturalis-08.jpg, media/historia-naturalis-07.jpg"><img src="media/historia-naturalis-03.jpg" alt="Historia Naturalis — the book open on a table" loading="lazy" decoding="async" /></figure>
+    <figure class="tile" style="--w: 107.5%; --ratio: 3 / 2" data-name="NATURALIS HISTORIA" data-group="historia-naturalis" data-feed-size="large" data-title="NATURALIS HISTORIA" data-type="Book design, Illustration" data-year="2022" data-feed-order="11" data-feed-slides="media/historia-naturalis-01.jpg, media/historia-naturalis-04.jpg, media/historia-naturalis-02.jpg, media/historia-naturalis-03.jpg, media/historia-naturalis-05.jpg, media/historia-naturalis-06.jpg, media/historia-naturalis-08.jpg, media/historia-naturalis-07.jpg"><img src="media/historia-naturalis-03.jpg" alt="NATURALIS HISTORIA — the book open on a table" loading="lazy" decoding="async" /></figure>
     <figure class="tile" style="--w: 107.5%; --ratio: 16 / 9" data-name="Plato" data-title="Plato" data-type="Web" data-year="2024" data-feed-order="3" data-group="plato" data-feed-lead data-feed-bg="#000" data-slides="media/plato-mockup-the-cave.jpg, media/plato-mockup-breaking-the-illusion.jpg, media/plato-mockup-dark.jpg"><video src="media/plato-mockup.mp4" poster="media/plato-mockup-poster.jpg" muted loop playsinline preload="none" aria-label="Plato — “The Cave is a Construct” website"></video></figure>
 
     <figure class="tile" style="--w: 98.8%; --ratio: 222.87 / 315.25" data-name="Plato poster" data-title="Plato" data-type="Poster" data-year="2024" data-group="plato"><img src="media/plato-poster.jpg" alt="Night with Plato — poster" loading="lazy" decoding="async" /></figure>
@@ -89,15 +100,18 @@
     <figure class="tile" style="--w: 107.5%; --ratio: 16 / 9" data-name="Yael Frahi website" data-tint data-title="Yael Frahi" data-type="Web" data-year="2026 – ongoing" data-feed-order="6" data-slides="media/yael-frahi-01-home.jpg, media/yael-frahi-02-about.jpg, media/yael-frahi-03-contact.jpg, media/yael-frahi-04-home-alt.jpg, media/yael-frahi-05-index-gallery.jpg, media/yael-frahi-06-index-gallery-hover.jpg, media/yael-frahi-07-index-list.jpg"><video src="media/yael-frahi-website.mp4" poster="media/yael-frahi-website-poster.jpg" muted loop playsinline preload="none" aria-label="Yael Frahi — website screens"></video></figure>
 
     <figure class="tile" style="--w: 100%; --ratio: 1600 / 886" data-name="Wix demo sites — Dream Labs" data-title="Wix demo sites" data-type="Web" data-year="2025" data-feed-skip data-caption="Site designs for new features and higher management decks"><video src="media/demo-sites-01.mp4" poster="media/demo-sites-01-poster.jpg" muted loop playsinline preload="none" aria-label="Wix demo sites — Dream Labs"></video></figure>
-    <figure class="tile" style="--w: 107.5%; --ratio: 3 / 2" data-name="Historia Naturalis — spread" data-group="historia-naturalis" data-title="Historia Naturalis" data-type="Book design, Illustration" data-year="2022"><img src="media/historia-naturalis-05.jpg" alt="Historia Naturalis — illustrated spread" loading="lazy" decoding="async" /></figure>
+    <figure class="tile" style="--w: 107.5%; --ratio: 3 / 2" data-name="NATURALIS HISTORIA — spread" data-group="historia-naturalis" data-title="NATURALIS HISTORIA" data-type="Book design, Illustration" data-year="2022"><img src="media/historia-naturalis-05.jpg" alt="NATURALIS HISTORIA — illustrated spread" loading="lazy" decoding="async" /></figure>
     <figure class="tile" style="--w: 98.9%; --ratio: 819 / 1023" data-name="Nirel &amp; Daniella (pink)" data-title="Nirel &amp; Daniella" data-type="Poster" data-year="2026" data-feed-skip data-caption="Invitation design + design exploration"><img src="media/nirel-daniella-invite-pink.jpg" alt="Nirel &amp; Daniella turning 30 — invitation (pink)" loading="lazy" decoding="async" /></figure>
     <figure class="tile" style="--w: 100%; --ratio: 1617 / 1675" data-name="Radical" data-title="Radical Idea House" data-type="Illustration" data-year="2025" data-feed-order="4" data-slides="media/radical-40.jpg, media/radical-41.jpg, media/radical-42.jpg, media/radical-43.jpg, media/radical-44.jpg" data-caption="Illustration series commissioned by Field Day Studio"><img src="media/radical-45.jpg" alt="Radical — illustrated posters" loading="lazy" decoding="async" /></figure>
     <figure class="tile" style="--w: 108.3%; --ratio: 244.32 / 171.92" data-name="3D exploration" data-title="3D exploration" data-type="Poster" data-year="2023" data-feed-order="14"><img src="media/3d-exploration.jpg" alt="Sex Toys by Adobe Illustrator — 3D type exploration" loading="lazy" decoding="async" /></figure>
 
     <figure class="tile" style="--w: 107.5%; --ratio: 16 / 9" data-name="Yael Frahi — sketch" data-title="Yael Frahi" data-type="Web" data-year="2026 – ongoing" data-caption="Early design sketch" data-feed-skip data-feed-target="media/yael-frahi-website.mp4"><img src="media/yael-frahi-sketch.jpg" alt="Yael Frahi website — early design sketch" loading="lazy" decoding="async" /></figure>
 
+    <figure class="tile" style="--w: 100%; --ratio: 1271 / 1400" data-name="Lasso — boots &amp; candy" data-title="Lasso Cyber Security" data-type="Illustration" data-year="2025" data-feed-skip data-feed-target="media/lasso-boot.jpg" data-caption="Illustration pitch for Lasso company (with Ron Robert Levi)"><img src="media/lasso-boot.jpg" alt="Lasso — cowboy boots filled with candy" loading="lazy" decoding="async" /></figure>
+
+    <figure class="tile" style="--w: 100%; --ratio: 4 / 5" data-name="Itay Matan" data-title="Itay Matan" data-type="Poster" data-year="2026" data-feed-order="15" data-feed-slides="media/itay-matan-01.jpg, media/itay-matan-02.jpg, media/itay-matan-03.jpg, media/itay-matan-04.jpg" data-caption="Invitation design"><img src="media/itay-matan-02.jpg" alt="Itay Matan — Chronicles, exhibition invitation (bold)" loading="lazy" decoding="async" /></figure>
+
     <!-- Placeholders for upcoming projects -->
-    <figure class="tile" style="--w: 69.9%; --ratio: 157.72 / 292" data-name="Rectangle 14"></figure>
     <figure class="tile" style="--w: 74.8%; --ratio: 168.58 / 259.65" data-name="Rectangle 16"></figure>
     <figure class="tile" style="--w: 74.8%; --ratio: 168.58 / 259.65" data-name="Placeholder 13"></figure>
     <figure class="tile" style="--w: 100.2%; --ratio: 226 / 292" data-name="Placeholder 14"></figure>
@@ -105,7 +119,6 @@
     <figure class="tile" style="--w: 69.9%; --ratio: 157.72 / 292" data-name="Placeholder 16"></figure>
     <figure class="tile" style="--w: 100%; --ratio: 225.45 / 281.81" data-name="Placeholder 17"></figure>
     <figure class="tile" style="--w: 99.3%; --ratio: 223.91 / 224.24" data-name="Placeholder 18"></figure>
-    <figure class="tile" style="--w: 100.2%; --ratio: 226 / 292" data-name="Placeholder 19"></figure>
   </main>
 
   <!--
@@ -126,6 +139,28 @@
       data-tint       faint dark overlay (for white work that blends into the page)
   -->
   <main class="feed" hidden></main>
+  </div>
+
+  <!-- Ink veil over the page while the footer comes up -->
+  <div class="page-veil" aria-hidden="true"></div>
+
+  <!-- Footer (Figma "Rectangle 41" and its contents): a dark card, centred,
+       rising from the bottom edge over the page -->
+  <footer class="site-footer">
+    <div class="footer-card">
+      <p class="footer-thanks">Thanks <em>for browsing!</em></p>
+      <p class="footer-cta">Let’s work together</p>
+      <p class="footer-sign">
+        <span>Ori Tirosh’s</span>
+        <span class="footer-year">2026</span>
+        <span>Portfolio</span>
+      </p>
+      <nav class="footer-links" aria-label="Contact">
+        <a href="https://www.instagram.com/ori.and.t/" target="_blank" rel="noopener">@ori.and.t →</a>
+        <a href="mailto:orillo4@gmail.com">orillo4@gmail.com →</a>
+      </nav>
+    </div>
+  </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.23/dist/lenis.min.js"></script>
   <script>
@@ -143,7 +178,7 @@
     // Slot-machine hover: split small texts into letters. Each letter rolls up and
     // an identical copy rolls in from below (CSS in "Slot hover").
     // The original text stays available to screen readers via .sr-only.
-    document.querySelectorAll('.site-header > *, .view-toggle button').forEach(el => {
+    document.querySelectorAll('.site-header > :not(:first-child), .view-toggle button, .footer-links a').forEach(el => {
       const label = el.textContent;
       el.textContent = '';
       el.classList.add('slot');
@@ -222,15 +257,19 @@
         const toggleTop = rel(toggle);
         const toggleH = toggle.offsetHeight;
         const textBottom = rel(text) + text.offsetHeight; // bottom-anchored, same at any --p
+        // Resting gaps (used on phones, where the collapsed top keeps the same spacing)
+        const restGapTop = rel(text) - headerH;
+        const restGapToggle = toggleTop - textBottom;
+        const restGapLine = lineTop - (toggleTop + toggleH);
 
         // Collapsed headline height (measured at its final size)
         root.style.setProperty('--p', '1');
         const textH = text.offsetHeight;
 
         const beside = getComputedStyle(toggle).position === 'absolute';
-        const hlTop = headerH + (beside ? GAP_UNDER_HEADER : 16);
-        const targetToggleTop = beside ? hlTop + textH / 2 - toggleH / 2 : hlTop + textH + 12;
-        const targetLine = targetToggleTop + toggleH + (beside ? GAP_TOGGLE_LINE : 12);
+        const hlTop = headerH + (beside ? GAP_UNDER_HEADER : restGapTop);
+        const targetToggleTop = beside ? hlTop + textH / 2 - toggleH / 2 : hlTop + textH + restGapToggle;
+        const targetLine = targetToggleTop + toggleH + (beside ? GAP_TOGGLE_LINE : restGapLine);
 
         distance = Math.max(1, lineTop - targetLine);
         top.style.top = `${-distance}px`;
@@ -495,6 +534,29 @@
       });
     })();
 
+    // Footer reveal: the page sticks once its bottom meets the window's bottom,
+    // the footer scrolls up over it and a faint ink veil fades in as it rises.
+    (() => {
+      const page = document.querySelector('.page');
+      const veil = document.querySelector('.page-veil');
+      const footer = document.querySelector('.site-footer');
+      const MAX = 0.3; // veil strength when the footer is fully up
+
+      const measure = () => {
+        document.documentElement.style.setProperty('--page-h', `${page.offsetHeight}px`);
+        update();
+      };
+      function update() {
+        const r = footer.getBoundingClientRect();
+        const p = Math.min(1, Math.max(0, (innerHeight - r.top) / Math.min(r.height, innerHeight)));
+        veil.style.opacity = (p * MAX).toFixed(3);
+      }
+      new ResizeObserver(measure).observe(page);
+      addEventListener('resize', measure);
+      addEventListener('scroll', update, { passive: true });
+      measure();
+    })();
+
     // Custom cursor (mouse / trackpad only)
     (() => {
       const fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
@@ -518,6 +580,11 @@
       }
       size(SMALL.w, SMALL.h);
 
+      // White cursor over the dark footer
+      function setDark(el) {
+        cursor.classList.toggle('on-dark', !!(el && el.closest('.site-footer')));
+      }
+
       function setTarget(el) {
         if (el === current) return;
         current = el;
@@ -532,20 +599,36 @@
           size(content.offsetWidth, content.offsetHeight); // grow to fit the text
         } else {
           cursor.classList.remove('is-open');
-          size(SMALL.w, SMALL.h);
+          size(arrow ? 18 : SMALL.w, arrow ? 30 : SMALL.h);
         }
       }
+
+      // Beside a feed carousel the square becomes a left/right arrow
+      let arrow = 0;
+      function setArrow(el) {
+        const dir = window.feedSide ? window.feedSide(x, y, el).dir : 0;
+        if (dir === arrow) return;
+        arrow = dir;
+        cursor.classList.toggle('is-arrow', dir !== 0);
+        cursor.classList.toggle('is-prev', dir === -1);
+        if (!current) size(dir ? 18 : SMALL.w, dir ? 30 : SMALL.h);
+      }
+      window.refreshCursor = () => setArrow(document.elementFromPoint(x, y));
 
       window.addEventListener('pointermove', e => {
         x = e.clientX; y = e.clientY;
         cursor.classList.add('is-visible');
         setTarget(e.target.closest('[data-cursor-title]'));
+        setArrow(e.target);
+        setDark(e.target);
       }, { passive: true });
       document.addEventListener('pointerleave', () => cursor.classList.remove('is-visible'));
       // Content under a still pointer changes while scrolling
       window.addEventListener('scroll', () => {
         const el = document.elementFromPoint(x, y);
         setTarget(el ? el.closest('[data-cursor-title]') : null);
+        setArrow(el);
+        setDark(el);
       }, { passive: true });
 
       (function follow() {
@@ -627,7 +710,33 @@
       });
 
       carousel.goTo = go; // used when jumping here from the grid
+      carousel.step = d => go(index + d); // used by the space beside the carousel
       go(0);
+    });
+
+    // Feed: the empty space beside a carousel works like its halves — anywhere to
+    // its left at the same height = previous, anywhere to its right = next.
+    // feedSide() says which way a click at (x, y) would go: -1, 1, or 0 (nothing,
+    // e.g. already on the first/last slide). The cursor uses it to show an arrow.
+    window.feedSide = (x, y, target) => {
+      const feed = document.querySelector('.feed');
+      if (feed.hidden || !target || target.closest('.carousel, a, button, .top, .site-footer')) return { dir: 0 };
+      const carousel = [...feed.querySelectorAll('.carousel')].find(c => {
+        const r = c.getBoundingClientRect();
+        return y >= r.top && y <= r.bottom;
+      });
+      if (!carousel) return { dir: 0 };
+      const r = carousel.getBoundingClientRect();
+      let dir = x < r.left ? -1 : x > r.right ? 1 : 0;
+      if (dir === -1 && carousel.classList.contains('at-start')) dir = 0;
+      if (dir === 1 && carousel.classList.contains('at-end')) dir = 0;
+      return { dir, carousel };
+    };
+    document.addEventListener('click', e => {
+      const { dir, carousel } = window.feedSide(e.clientX, e.clientY, e.target);
+      if (!dir) return;
+      carousel.step(dir);
+      window.refreshCursor?.(); // the arrow hides on the last/first slide
     });
 
     // Grid → feed: clicking a project opens the feed at that project's post,
