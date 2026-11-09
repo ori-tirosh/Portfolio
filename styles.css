@@ -717,6 +717,11 @@ html.view-switched {
   background: var(--bg);
 }
 
+/* Footer fully up: nothing behind it reacts (carousels, links, captions) */
+.footer-up .page {
+  pointer-events: none;
+}
+
 .page-veil {
   position: fixed;
   inset: 0;
