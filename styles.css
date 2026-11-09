@@ -64,7 +64,11 @@ body {
   text-decoration: none;
 }
 
-.site-header a:hover {
+.site-header .home-link:hover {
+  text-decoration: none;
+}
+
+.site-header a:not(.home-link):hover {
   text-decoration: underline;
   text-underline-offset: 3px;
 }
@@ -115,6 +119,11 @@ body {
 
 /* Words animate in one by one on load */
 .headline .word {
+  display: inline-block;
+}
+
+/* Letters for the headline's cursor effect (desktop) */
+.headline .mag {
   display: inline-block;
 }
 

@@ -36,7 +36,7 @@
   <!-- Collapsing top: shrinks into a compact sticky header on scroll -->
   <div class="top">
   <header class="site-header">
-    <span style="--i: 0">Ori Tirosh</span>
+    <a class="home-link" style="--i: 0" href="./" aria-label="Ori Tirosh — back to the start">Ori Tirosh</a>
     <a style="--i: 1" href="https://www.instagram.com/ori.and.t/" target="_blank" rel="noopener">@ori.and.t</a>
     <span style="--i: 2">orillo4@gmail.com</span>
   </header>
@@ -84,7 +84,7 @@
     <figure class="tile" style="--w: 98.8%; --ratio: 222.87 / 315.25" data-name="Plato poster" data-title="Plato" data-type="Poster" data-year="2024" data-group="plato"><img src="media/plato-poster.jpg" alt="Night with Plato — poster" loading="lazy" decoding="async" /></figure>
     <figure class="tile" style="--w: 100%; --ratio: 16 / 9" data-name="Wix demo sites" data-feed-fit="cover" data-slides="media/demo-sites-01.mp4, media/demo-sites-02.mp4, media/demo-sites-04.mp4" data-title="Wix demo sites" data-type="Web" data-year="2025" data-feed-order="12" data-caption="Site designs for new features and higher management decks"><video src="media/pureppf-mockup.mp4" poster="media/pureppf-mockup-poster.jpg" muted loop playsinline preload="none" aria-label="Wix demo sites — Pure PPF"></video></figure>
     <figure class="tile" style="--w: 100%; --ratio: 1860 / 2048" data-name="Lasso" data-title="Lasso Cyber Security" data-type="Illustration" data-year="2025" data-feed-order="8" data-slides="media/lasso-boot.jpg, media/lasso-hat.jpg, media/lasso-lock.jpg" data-caption="Illustration pitch for Lasso company (with Ron Robert Levi)"><img src="media/lasso-cookies.jpg" alt="Lasso — illustration" loading="lazy" decoding="async" /></figure>
-    <figure class="tile" style="--w: 100.2%; --ratio: 16 / 9" data-name="Kuromame Market" data-title="Kuromame Market" data-type="Web" data-year="2026" data-feed-order="7" data-caption="Built with Wix Headless"><video src="media/kuromame-mockup.mp4" poster="media/kuromame-mockup-poster.jpg" muted loop playsinline preload="none" aria-label="Kuromame Market — website"></video></figure>
+    <figure class="tile" style="--w: 100.2%; --ratio: 16 / 9" data-name="Kuromame Market" data-title="Kuromame Market" data-type="Web" data-year="2026" data-feed-order="7" data-slides="media/kuromame-board.jpg" data-feed-bg="#e4e4e4" data-caption="Built with Wix Headless"><video src="media/kuromame-mockup.mp4" poster="media/kuromame-mockup-poster.jpg" muted loop playsinline preload="none" aria-label="Kuromame Market — website"></video></figure>
     <figure class="tile" style="--w: 98.9%; --ratio: 1080 / 1350" data-name="Nirel &amp; Daniella — photos" data-title="Nirel &amp; Daniella" data-type="Poster" data-year="2026" data-group="nirel-daniella" data-caption="Invitation design + design exploration"><video src="media/nirel-daniella-photos.mp4" poster="media/nirel-daniella-photos-poster.jpg" muted loop playsinline preload="none" aria-label="Nirel &amp; Daniella turning 30 — photo posts"></video></figure>
 
     <figure class="tile" style="--w: 100%; --ratio: 1860 / 2048" data-name="Lasso — lock &amp; heart" data-title="Lasso Cyber Security" data-type="Illustration" data-year="2025" data-feed-skip data-caption="Illustration pitch for Lasso company (with Ron Robert Levi)"><img src="media/lasso-lock.jpg" alt="Lasso — lock and heart illustration" loading="lazy" decoding="async" /></figure>
@@ -830,6 +830,77 @@
       const { dir, carousel } = window.feedSide(e.clientX, e.clientY, e.target);
       if (dir) carousel.step(dir);
     });
+
+    // Name in the header: back to the start — Grid view, top of the page
+    document.querySelector('.home-link').addEventListener('click', e => {
+      e.preventDefault();
+      const grid = document.querySelector('.view-toggle [data-view="wall"]');
+      if (!grid.classList.contains('is-active')) grid.click();
+      if (window.lenis) {
+        window.lenis.resize();
+        window.lenis.scrollTo(0, { duration: 1.2, force: true });
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    });
+
+    // Headline "negative magnet" (desktop only): letters drift away from the cursor
+    // while it moves inside the paragraph, and settle back when it leaves.
+    (() => {
+      if (!matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      const headline = document.querySelector('.headline');
+      // Split each word's text into single letters (inside <em> too)
+      headline.querySelectorAll('.word').forEach(word => {
+        const walker = document.createTreeWalker(word, NodeFilter.SHOW_TEXT);
+        const nodes = [];
+        while (walker.nextNode()) nodes.push(walker.currentNode);
+        nodes.forEach(node => {
+          const frag = document.createDocumentFragment();
+          [...node.textContent].forEach(ch => {
+            if (/\s/.test(ch)) { frag.append(ch); return; }
+            const span = document.createElement('span');
+            span.className = 'mag';
+            span.textContent = ch;
+            frag.append(span);
+          });
+          node.replaceWith(frag);
+        });
+      });
+      const words = [...headline.querySelectorAll('.mag')].map(el => ({ el, x: 0, y: 0 }));
+      const RADIUS = 140; // px around the cursor that pushes
+      const PUSH = 22;    // px a letter moves when the cursor is right on it
+      let mx = 0, my = 0, inside = false, running = false;
+
+      headline.addEventListener('pointermove', e => { mx = e.clientX; my = e.clientY; inside = true; start(); });
+      headline.addEventListener('pointerleave', () => { inside = false; start(); });
+
+      function start() {
+        if (!running) { running = true; requestAnimationFrame(tick); }
+      }
+      function tick() {
+        let moving = false;
+        words.forEach(w => {
+          let tx = 0, ty = 0;
+          if (inside) {
+            const r = w.el.getBoundingClientRect();
+            const cx = r.left + r.width / 2 - w.x, cy = r.top + r.height / 2 - w.y; // resting centre
+            const dx = cx - mx, dy = cy - my;
+            const d = Math.hypot(dx, dy) || 1;
+            const f = Math.max(0, 1 - d / RADIUS);
+            const k = Math.pow(f, 1.5) * PUSH;
+            tx = (dx / d) * k;
+            ty = (dy / d) * k;
+          }
+          w.x += (tx - w.x) * 0.12;
+          w.y += (ty - w.y) * 0.12;
+          if (Math.abs(tx - w.x) > 0.05 || Math.abs(ty - w.y) > 0.05) moving = true;
+          w.el.style.translate = `${w.x.toFixed(2)}px ${w.y.toFixed(2)}px`;
+        });
+        if (moving || inside) requestAnimationFrame(tick);
+        else running = false;
+      }
+    })();
 
     // Grid → feed: clicking a project opens the feed at that project's post,
     // on the slide showing the image/video that was clicked.
