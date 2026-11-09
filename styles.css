@@ -787,39 +787,18 @@ html.view-switched {
 }
 
 /* ---------- Footer reveal ---------- */
-/* The page sticks when its bottom reaches the window's bottom (--page-h is set by
-   script), so it stops moving while the footer slides up over it. */
+/* At the end of the page the footer slides up (an eased animation, triggered by
+   the scroll but not driven by it) over the page, with a faint ink veil. */
 .page {
   display: flow-root; /* keep the wall/feed bottom margin inside the page */
-  position: sticky;
-  top: min(0px, calc(100svh - var(--page-h, 100svh)));
+  position: relative;
   z-index: 0;
   background: var(--bg);
 }
 
-/* Footer fully up: nothing behind it reacts (carousels, links, captions) */
+/* Footer up: nothing behind it reacts (carousels, links, captions) */
 .footer-up .page {
   pointer-events: none;
-}
-
-/* Touch screens: no sticky page. A sticky page around the sticky header makes
-   iOS Safari redraw the header late while scrolling up (it flickers); here the
-   footer simply scrolls up after the last row, still with the tint. */
-@media (hover: none) {
-  .page {
-    position: relative;
-    top: auto;
-  }
-
-  /* No full-screen tint layer on touch screens either: a fixed layer over the
-     sticky header is another thing iOS Safari redraws late while scrolling */
-  .page-veil {
-    display: none !important;
-  }
-}
-
-.page-veil[hidden] {
-  display: none;
 }
 
 .page-veil {
@@ -828,17 +807,49 @@ html.view-switched {
   z-index: 1;
   background: var(--ink); /* same dark grey as the site */
   opacity: 0;
+  visibility: hidden;
   pointer-events: none;
+  transition: opacity 900ms var(--ease-flow), visibility 0s linear 900ms;
+}
+
+.footer-up .page-veil {
+  opacity: 0.65;
+  visibility: visible;
+  transition: opacity 900ms var(--ease-flow), visibility 0s;
+}
+
+/* No full-screen tint layer on touch screens (iOS redraws the sticky header
+   late under a fixed layer) */
+@media (hover: none) {
+  .page-veil {
+    display: none !important;
+  }
 }
 
 /* ---------- Footer ---------- */
+.footer-up .site-footer {
+  translate: 0 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-footer,
+  .page-veil {
+    transition: none;
+  }
+}
+
 /* Figma: a 1038 × 764.75 #333 card, centred in the 1728 frame and sitting on the
    bottom edge. Sizes are Figma px × --u, which is 1px at 1728 wide and scales down
    with the window. Small text stays at 16px. */
 .site-footer {
   --u: min(1px, calc(100vw / 1728));
-  position: relative;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
   z-index: 2;
+  translate: 0 100%; /* parked below the window until the end of the page */
+  transition: translate 1100ms var(--ease-flow);
   display: flex;
   justify-content: center;
   pointer-events: none; /* the page beside the card stays hoverable */

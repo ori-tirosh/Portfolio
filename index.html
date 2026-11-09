@@ -78,7 +78,7 @@
     <figure class="tile" style="--w: 100%; --ratio: 720 / 714" data-name="Seed Vault" data-title="Seed Vault" data-type="Motion, Installation" data-year="2024" data-feed-order="1" data-feed-size="large" data-timeline data-feed-bg="#000" data-slides="media/seed-vault-installation-01.jpg, media/seed-vault-installation-02.jpg, media/seed-vault-rakefet.jpg, media/seed-vault-galaxy.jpg, media/seed-vault-goddess.jpg, media/seed-vault-hatzav.jpg, media/seed-vault-process-01.jpg, media/seed-vault-process-02.jpg" data-caption="By Ori Tirosh &amp; Ruth Yarmolinsky"><video src="media/seed-vault.mp4" poster="media/seed-vault-poster.jpg" muted loop playsinline preload="none" aria-label="Local Seed Vault"></video></figure>
     <figure class="tile" style="--w: 100%; --ratio: 819 / 1023" data-name="Nirel &amp; Daniella" data-title="Nirel &amp; Daniella" data-type="Poster" data-year="2026" data-feed-order="2" data-group="nirel-daniella" data-slides="media/nirel-daniella-invite-orange.jpg, media/nirel-daniella-invite-pink.jpg" data-caption="Invitation design + design exploration"><img src="media/nirel-daniella-invite-green.jpg" alt="Nirel &amp; Daniella turning 30 — invitation (green)" loading="lazy" decoding="async" /></figure>
     <figure class="tile" style="--w: 99.3%; --ratio: 1 / 1" data-name="Yomuledet" data-title="Yomuledet" data-type="Motion poster" data-year="2025" data-feed-order="9" data-feed-bg="#000" data-slides="media/yomuledet-print.jpg, media/yomuledet-screen.mp4"><video src="media/yomuledet.mp4" poster="media/yomuledet-poster.jpg" muted loop playsinline preload="none" aria-label="Yomuledet — birthday party poster"></video></figure>
-    <figure class="tile" style="--w: 107.5%; --ratio: 3 / 2" data-name="NATURALIS HISTORIA" data-group="historia-naturalis" data-feed-size="large" data-title="NATURALIS HISTORIA" data-type="Book design, Illustration" data-year="2022" data-feed-order="11" data-feed-slides="media/historia-naturalis-01.jpg, media/historia-naturalis-04.jpg, media/historia-naturalis-02.jpg, media/historia-naturalis-03.jpg, media/historia-naturalis-05.jpg, media/historia-naturalis-06.jpg, media/historia-naturalis-08.jpg, media/historia-naturalis-07.jpg"><img src="media/historia-naturalis-03.jpg" alt="NATURALIS HISTORIA — the book open on a table" loading="lazy" decoding="async" /></figure>
+    <figure class="tile" style="--w: 107.5%; --ratio: 3 / 2" data-name="NATURALIS HISTORIA" data-group="historia-naturalis" data-feed-size="large" data-title="NATURALIS HISTORIA" data-type="Book design, Illustration" data-year="2022" data-feed-order="11" data-feed-slides="media/historia-naturalis-04.jpg, media/historia-naturalis-01.jpg, media/historia-naturalis-02.jpg, media/historia-naturalis-03.jpg, media/historia-naturalis-05.jpg, media/historia-naturalis-06.jpg, media/historia-naturalis-08.jpg, media/historia-naturalis-07.jpg"><img src="media/historia-naturalis-03.jpg" alt="NATURALIS HISTORIA — the book open on a table" loading="lazy" decoding="async" /></figure>
     <figure class="tile" style="--w: 107.5%; --ratio: 16 / 9" data-name="Plato" data-title="Plato" data-type="Web" data-year="2024" data-feed-order="3" data-group="plato" data-feed-lead data-feed-bg="#000" data-slides="media/plato-mockup-the-cave.jpg, media/plato-mockup-breaking-the-illusion.jpg, media/plato-mockup-dark.jpg"><video src="media/plato-mockup.mp4" poster="media/plato-mockup-poster.jpg" muted loop playsinline preload="none" aria-label="Plato — “The Cave is a Construct” website"></video></figure>
 
     <figure class="tile" style="--w: 98.8%; --ratio: 222.87 / 315.25" data-name="Plato poster" data-title="Plato" data-type="Poster" data-year="2024" data-group="plato"><img src="media/plato-poster.jpg" alt="Night with Plato — poster" loading="lazy" decoding="async" /></figure>
@@ -560,41 +560,28 @@
       });
     })();
 
-    // Footer reveal: the page sticks once its bottom meets the window's bottom,
-    // the footer scrolls up over it and a faint ink veil fades in as it rises.
+    // Footer reveal: reaching the end of the page triggers it — the footer then
+    // slides up with its own eased animation (not tied to the scroll), and a faint
+    // ink veil fades in behind it. Scrolling back up sends it away again.
     (() => {
-      const page = document.querySelector('.page');
-      const veil = document.querySelector('.page-veil');
-      const footer = document.querySelector('.site-footer');
-      const MAX = 0.3; // veil strength when the footer is fully up
-
-      const measure = () => {
-        document.documentElement.style.setProperty('--page-h', `${page.offsetHeight}px`);
-        update();
-      };
-      function update() {
-        const r = footer.getBoundingClientRect();
-        const p = Math.min(1, Math.max(0, (innerHeight - r.top) / Math.min(r.height, innerHeight)));
-        const o = (p * MAX).toFixed(3);
-        if (o !== lastOpacity) {
-          lastOpacity = o;
-          veil.style.opacity = o;
-          // Take the veil out completely when it's clear: a leftover full-screen
-          // layer over the sticky header made iOS Safari flicker the header
-          veil.hidden = p === 0;
-        }
-        // Footer fully up: the page behind it (carousels, links, captions) goes inactive
-        const up = p >= 0.98;
-        if (up !== lastUp) {
-          lastUp = up;
-          document.documentElement.classList.toggle('footer-up', up);
-        }
+      const root = document.documentElement;
+      let open = false;
+      function check() {
+        // With smooth scroll, use where the scroll is heading, not where the glide
+        // currently is: the glide's last few pixels take seconds to settle, and the
+        // footer should start the moment the scrolling reaches the end.
+        const max = window.lenis ? window.lenis.limit : root.scrollHeight - innerHeight;
+        const y = window.lenis ? window.lenis.targetScroll : scrollY;
+        if (!open && y >= max - 24) open = true;
+        else if (open && y < max - 60) open = false;
+        else return;
+        // footer-up: the page behind is inactive while the footer is open
+        root.classList.toggle('footer-up', open);
       }
-      let lastOpacity = null, lastUp = null;
-      new ResizeObserver(measure).observe(page);
-      addEventListener('resize', measure);
-      addEventListener('scroll', update, { passive: true });
-      measure();
+      addEventListener('scroll', check, { passive: true });
+      if (window.lenis) window.lenis.on('scroll', check);
+      addEventListener('resize', check);
+      check();
     })();
 
     // Custom cursor (mouse / trackpad only)
