@@ -290,7 +290,14 @@
         ticking = true;
         requestAnimationFrame(() => { update(); ticking = false; });
       }, { passive: true });
-      window.addEventListener('resize', measure);
+      // Phones fire "resize" whenever the browser bar slides in/out while scrolling;
+      // the layout only depends on the width, so ignore height-only changes.
+      let lastWidth = innerWidth;
+      window.addEventListener('resize', () => {
+        if (innerWidth === lastWidth) return;
+        lastWidth = innerWidth;
+        measure();
+      });
       document.fonts.ready.then(measure);
       measure();
     })();

@@ -722,6 +722,16 @@ html.view-switched {
   pointer-events: none;
 }
 
+/* Touch screens: no sticky page. A sticky page around the sticky header makes
+   iOS Safari redraw the header late while scrolling up (it flickers); here the
+   footer simply scrolls up after the last row, still with the tint. */
+@media (hover: none) {
+  .page {
+    position: relative;
+    top: auto;
+  }
+}
+
 .page-veil {
   position: fixed;
   inset: 0;
