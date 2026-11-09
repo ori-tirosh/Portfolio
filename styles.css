@@ -732,6 +732,10 @@ html.view-switched {
   }
 }
 
+.page-veil[hidden] {
+  display: none;
+}
+
 .page-veil {
   position: fixed;
   inset: 0;
