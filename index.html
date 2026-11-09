@@ -28,12 +28,6 @@
       <span class="cursor-type"></span>
       <span class="cursor-text"></span>
     </div>
-    <!-- Pixel arrow (Figma "Group 93"): shown beside a feed carousel -->
-    <svg class="cursor-arrow" width="18" height="30" viewBox="0 0 18 30" aria-hidden="true">
-      <rect x="0" y="0" width="6" height="6" /><rect x="6" y="6" width="6" height="6" />
-      <rect x="12" y="12" width="6" height="6" /><rect x="6" y="18" width="6" height="6" />
-      <rect x="0" y="24" width="6" height="6" />
-    </svg>
   </div>
 
   <!-- Page content. When its end is reached it holds still and the footer slides up over it -->
@@ -465,6 +459,11 @@
         if (tile.dataset.feedFit === 'cover') post.classList.add('fit-cover');
 
         const count = slides.length;
+        // Pixel arrow (Figma "Group 93"), 80% size, drawn on the image's sides
+        const ARROW = `<svg width="14.4" height="24" viewBox="0 0 18 30" aria-hidden="true">
+          <rect x="0" y="0" width="6" height="6" /><rect x="6" y="6" width="6" height="6" />
+          <rect x="12" y="12" width="6" height="6" /><rect x="6" y="18" width="6" height="6" />
+          <rect x="0" y="24" width="6" height="6" /></svg>`;
 
         if (count > 1) {
           post.innerHTML = `
@@ -472,6 +471,8 @@
             <div class="carousel" tabindex="0" aria-roledescription="carousel"
                  aria-label="${tile.dataset.name}, slide 1 of ${count}">
               <div class="carousel-track"></div>
+              <button class="carousel-arrow is-prev" type="button" aria-label="Previous image" tabindex="-1">${ARROW}</button>
+              <button class="carousel-arrow is-next" type="button" aria-label="Next image" tabindex="-1">${ARROW}</button>
             </div>`;
           const track = post.querySelector('.carousel-track');
           slides.forEach(media => {
@@ -634,39 +635,28 @@
           type.hidden = !el.dataset.cursorType;
           text.textContent = el.dataset.cursorText;
           text.hidden = !el.dataset.cursorText; // only projects with a caption show the line + text
-          cursor.classList.add('is-open');
-          size(content.offsetWidth, content.offsetHeight); // grow to fit the text
+          cursor.classList.add('is-open'); // caption hangs off the square's bottom-right corner
         } else {
           cursor.classList.remove('is-open');
-          size(arrow ? 18 : SMALL.w, arrow ? 30 : SMALL.h);
         }
       }
-
-      // Beside a feed carousel the square becomes a left/right arrow
-      let arrow = 0;
-      function setArrow(el) {
-        const dir = window.feedSide ? window.feedSide(x, y, el).dir : 0;
-        if (dir === arrow) return;
-        arrow = dir;
-        cursor.classList.toggle('is-arrow', dir !== 0);
-        cursor.classList.toggle('is-prev', dir === -1);
-        if (!current) size(dir ? 18 : SMALL.w, dir ? 30 : SMALL.h);
-      }
-      window.refreshCursor = () => setArrow(document.elementFromPoint(x, y));
 
       window.addEventListener('pointermove', e => {
         x = e.clientX; y = e.clientY;
         cursor.classList.add('is-visible');
         setTarget(e.target.closest('[data-cursor-title]'));
-        setArrow(e.target);
         setDark(e.target);
+        // Near the right/bottom edge the caption flips to the other side of the square
+        if (current) {
+          cursor.classList.toggle('flip-x', x + SMALL.w + content.offsetWidth > innerWidth);
+          cursor.classList.toggle('flip-y', y + SMALL.h + content.offsetHeight > innerHeight);
+        }
       }, { passive: true });
       document.addEventListener('pointerleave', () => cursor.classList.remove('is-visible'));
       // Content under a still pointer changes while scrolling
       window.addEventListener('scroll', () => {
         const el = document.elementFromPoint(x, y);
         setTarget(el ? el.closest('[data-cursor-title]') : null);
-        setArrow(el);
         setDark(el);
       }, { passive: true });
 
@@ -689,6 +679,52 @@
       document.querySelectorAll('video').forEach(v => { v.muted = true; io.observe(v); });
     })();
 
+    // How light the area under each carousel arrow is on one slide.
+    // Samples the image (a video's poster) around where the arrow sits; where the
+    // picture doesn't reach the edge (shown whole on a backdrop), uses the backdrop.
+    function readTones(slide) {
+      const media = slide.querySelector('img, video');
+      const src = media.tagName === 'VIDEO' ? media.getAttribute('poster') : media.currentSrc || media.src;
+      const backdrop = getComputedStyle(slide).backgroundColor;
+      return new Promise((resolve, reject) => {
+        if (!src) return reject();
+        const img = new Image();
+        img.onload = () => resolve(img);
+        img.onerror = reject;
+        img.src = src;
+      }).then(img => {
+        // The feed may still be hidden: fall back to the slide's ratio at 400px wide
+        const ar = (getComputedStyle(slide).aspectRatio.match(/[\d.]+/g) || [4, 5]).map(Number);
+        const W = slide.clientWidth || 400;
+        const H = slide.clientHeight || W * (ar[1] || 1) / ar[0];
+        const cover = getComputedStyle(media).objectFit === 'cover';
+        const scale = (cover ? Math.max : Math.min)(W / img.naturalWidth, H / img.naturalHeight);
+        const dw = img.naturalWidth * scale, dh = img.naturalHeight * scale;
+        const ox = (W - dw) / 2, oy = (H - dh) / 2;
+        const canvas = document.createElement('canvas');
+        canvas.width = 24; canvas.height = 32;
+        const ctx = canvas.getContext('2d', { willReadFrequently: true });
+        const lum = (r, g, b) => (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255;
+        const backdropLum = (() => {
+          const m = backdrop.match(/\d+(\.\d+)?/g);
+          return m && (m[3] === undefined || +m[3] > 0) ? lum(+m[0], +m[1], +m[2]) : 1; // transparent → white page
+        })();
+        // Arrow centre: 4px offset + 12px padding + half the 14.4px arrow ≈ 23px in
+        const tone = x => {
+          const y = H / 2;
+          if (x < ox || x > ox + dw) return backdropLum > 0.55 ? 'light' : 'dark';
+          const sx = (x - 18 - ox) / scale, sy = (y - 24 - oy) / scale;
+          ctx.clearRect(0, 0, 24, 32);
+          ctx.drawImage(img, sx, sy, 36 / scale, 48 / scale, 0, 0, 24, 32);
+          const d = ctx.getImageData(0, 0, 24, 32).data;
+          let sum = 0;
+          for (let i = 0; i < d.length; i += 4) sum += lum(d[i], d[i + 1], d[i + 2]);
+          return sum / (d.length / 4) > 0.55 ? 'light' : 'dark';
+        };
+        return { prev: tone(23), next: tone(W - 23) };
+      });
+    }
+
     // Feed carousels — right half = next, left half = previous, swipe/drag, arrow keys.
     document.querySelectorAll('.carousel').forEach(carousel => {
       const track = carousel.querySelector('.carousel-track');
@@ -708,7 +744,23 @@
         carousel.setAttribute('aria-label', `${label}, slide ${index + 1} of ${count}`);
         carousel.classList.toggle('at-start', index === 0);
         carousel.classList.toggle('at-end', index === count - 1);
+        paintArrows();
       }
+
+      // Arrow colour per slide, picked from what's under each arrow:
+      // white on dark areas, ink (#333) on light ones. No blending.
+      const tones = new Map(); // slide → { prev, next } ('light' | 'dark')
+      function paintArrows() {
+        const t = tones.get(track.children[index]);
+        carousel.dataset.prevTone = t ? t.prev : 'dark';
+        carousel.dataset.nextTone = t ? t.next : 'dark';
+      }
+      [...track.children].forEach(slide => {
+        readTones(slide).then(t => {
+          tones.set(slide, t);
+          if (track.children[index] === slide) paintArrows();
+        }).catch(() => {});
+      });
 
       // Drag / swipe (pointer events cover mouse, touch and pen)
       let startX = null;
@@ -739,6 +791,8 @@
       // Click: right half → next, left half → previous (ignored after a drag)
       carousel.addEventListener('click', e => {
         if (Math.abs(dragX) > 4) { dragX = 0; return; }
+        const arrow = e.target.closest('.carousel-arrow');
+        if (arrow) { go(index + (arrow.classList.contains('is-next') ? 1 : -1)); return; }
         const rect = carousel.getBoundingClientRect();
         go(index + (e.clientX - rect.left > rect.width / 2 ? 1 : -1));
       });
@@ -756,7 +810,7 @@
     // Feed: the empty space beside a carousel works like its halves — anywhere to
     // its left at the same height = previous, anywhere to its right = next.
     // feedSide() says which way a click at (x, y) would go: -1, 1, or 0 (nothing,
-    // e.g. already on the first/last slide). The cursor uses it to show an arrow.
+    // e.g. already on the first/last slide).
     window.feedSide = (x, y, target) => {
       const feed = document.querySelector('.feed');
       if (feed.hidden || !target || document.documentElement.classList.contains('footer-up')
@@ -774,9 +828,7 @@
     };
     document.addEventListener('click', e => {
       const { dir, carousel } = window.feedSide(e.clientX, e.clientY, e.target);
-      if (!dir) return;
-      carousel.step(dir);
-      window.refreshCursor?.(); // the arrow hides on the last/first slide
+      if (dir) carousel.step(dir);
     });
 
     // Grid → feed: clicking a project opens the feed at that project's post,

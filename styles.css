@@ -306,6 +306,49 @@ body {
   outline-offset: 4px;
 }
 
+/* Arrows on the image's left and right, like Instagram; hidden at the ends.
+   Colour is picked per slide by script from what's under each arrow. */
+.carousel-arrow {
+  position: absolute;
+  top: 50%;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  padding: 12px;
+  border: 0;
+  background: none;
+  translate: 0 -50%;
+  cursor: pointer;
+}
+
+.carousel-arrow svg {
+  display: block;
+  fill: var(--ink);
+}
+
+/* White over dark parts of the image, ink over light parts (chosen per slide) */
+.carousel[data-prev-tone="dark"] .carousel-arrow.is-prev svg,
+.carousel[data-next-tone="dark"] .carousel-arrow.is-next svg {
+  fill: #fff;
+}
+
+.carousel-arrow.is-prev {
+  left: 4px;
+}
+
+.carousel-arrow.is-prev svg {
+  transform: scaleX(-1);
+}
+
+.carousel-arrow.is-next {
+  right: 4px;
+}
+
+.carousel.at-start .carousel-arrow.is-prev,
+.carousel.at-end .carousel-arrow.is-next {
+  display: none;
+}
+
 .carousel.at-start.at-end {
   cursor: default;
 }
@@ -609,12 +652,32 @@ html.view-switched {
 
 /* Caption layout: name + year / type / hairline / sentence.
    Fixed width so name and year line up; the box measures it to size itself. */
+.cursor.is-open {
+  overflow: visible;
+}
+
+/* The caption hangs off the square's bottom-right corner */
 .cursor-content {
+  position: absolute;
+  top: 100%;
+  left: 100%;
+  background: var(--ink);
+  color: var(--bg);
   display: flex;
   flex-direction: column;
   width: 270px;
   padding: 26px; /* the Wall/Feed tab's side padding, on all four sides */
   visibility: hidden;
+}
+
+.cursor.flip-x .cursor-content {
+  left: auto;
+  right: 100%;
+}
+
+.cursor.flip-y .cursor-content {
+  top: auto;
+  bottom: 100%;
 }
 
 .cursor.is-open .cursor-content {
@@ -892,29 +955,6 @@ html.view-switched {
   .footer-links {
     font-size: 14px;
   }
-}
-
-/* Beside a feed carousel: the pixel arrow (Figma "Group 93") instead of the square,
-   centred on the pointer; flipped for "previous" */
-.cursor-arrow {
-  display: none;
-  position: absolute;
-  top: 0;
-  left: 0;
-  fill: var(--ink);
-}
-
-.cursor.is-arrow:not(.is-open) {
-  margin: -15px 0 0 -9px;
-  background: none;
-}
-
-.cursor.is-arrow:not(.is-open) .cursor-arrow {
-  display: block;
-}
-
-.cursor.is-prev .cursor-arrow {
-  transform: scaleX(-1);
 }
 
 /* Cursor turns white over the dark footer */
