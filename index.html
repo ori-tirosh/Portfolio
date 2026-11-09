@@ -208,6 +208,17 @@
       el.append(sr, chars);
     });
 
+    // Once the intro has played, drop the animation from the header texts, headline
+    // words, tabs and line. A finished animation that "holds" its last frame keeps
+    // each text on its own layer; inside the sticky header, iOS Safari moves those
+    // layers a frame late while scrolling, so the texts flash. Removing it after
+    // the end looks identical (same final state) and leaves plain, still text.
+    document.querySelectorAll('.site-header > *, .view-toggle, .headline .word, .divider').forEach(el => {
+      el.addEventListener('animationend', e => {
+        if (e.target === el) el.style.animation = 'none';
+      });
+    });
+
     // Stagger tiles in a diagonal wave: delay index = row + column.
     // Reads the live column count so it also works on the smaller-screen layouts.
     (() => {
