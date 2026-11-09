@@ -30,6 +30,9 @@ jobs:
           mkdir _site
           cp index.html styles.css .nojekyll _site/
           cp -R media _site/media
+          # Version the stylesheet link so browsers never pair new HTML with an old cached CSS
+          sed -i "s|href=\"styles.css\"|href=\"styles.css?v=${GITHUB_SHA::7}\"|" _site/index.html
+          grep -q "styles.css?v=" _site/index.html
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

@@ -861,6 +861,7 @@
             if (/\s/.test(ch)) { frag.append(ch); return; }
             const span = document.createElement('span');
             span.className = 'mag';
+            span.style.display = 'inline-block'; // needed to move; don't wait on the stylesheet
             span.textContent = ch;
             frag.append(span);
           });
