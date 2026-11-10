@@ -367,6 +367,11 @@ body {
   transition: transform 700ms var(--ease-flow);
 }
 
+/* At rest, hide the off-screen slides (no sub-pixel edge bleeding in) */
+.carousel:not(.is-moving) .slide:not(.is-current) {
+  visibility: hidden;
+}
+
 .carousel.is-dragging .carousel-track {
   transition: none;
 }
@@ -390,6 +395,12 @@ body {
 /* data-feed-fit="cover": slides fill the carousel edge to edge */
 .post.fit-cover .slide > img,
 .post.fit-cover .slide > video {
+  object-fit: cover;
+}
+
+/* Seed Vault collage sits on its own white margin, so it fills the frame
+   (no sub-pixel sliver of the black backdrop at the edge) */
+.slide > img[src$="seed-vault-collage.jpg"] {
   object-fit: cover;
 }
 
