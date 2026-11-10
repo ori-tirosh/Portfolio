@@ -404,6 +404,11 @@ body {
   object-fit: cover;
 }
 
+/* Pure PPF configurator shown whole (rounded corners and all) on the white backdrop */
+.post.fit-cover .slide > img[src$="demo-sites-03.jpg"] {
+  object-fit: contain;
+}
+
 /* Row under a post: timeline (if any) + slide counter, same type as the timeline time */
 .post-meta {
   display: flex;
