@@ -402,11 +402,30 @@ body {
   min-height: 15px;
 }
 
-/* Slide counter: above the image, top-left */
+/* Slide counter top-left, square indicators top-right, above the image */
 .post-top {
   display: flex;
+  align-items: center;
+  justify-content: space-between;
   margin-bottom: 14px;
   min-height: 15px;
+}
+
+.slide-dots {
+  display: flex;
+  gap: 3px;
+}
+
+.slide-dots i {
+  width: 5px;
+  height: 5px;
+  background: var(--ink);
+  opacity: 0.2;
+  transition: opacity 300ms var(--ease-flow);
+}
+
+.slide-dots i.is-active {
+  opacity: 1;
 }
 
 .slide-count {
@@ -831,10 +850,24 @@ html.view-switched {
   translate: 0 0;
 }
 
+/* Desktop: the smooth scroll is still gliding when it reaches the end, so wait a
+   moment before the footer (and its veil) come up. Going away has no delay. */
+@media (hover: hover) and (pointer: fine) {
+  .footer-up .site-footer {
+    transition-delay: 450ms;
+  }
+
+  .footer-up .page-veil {
+    transition: opacity 900ms var(--ease-flow) 450ms, visibility 0s linear 450ms;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .site-footer,
-  .page-veil {
-    transition: none;
+  .page-veil,
+  .footer-up .site-footer,
+  .footer-up .page-veil {
+    transition: none !important;
   }
 }
 
